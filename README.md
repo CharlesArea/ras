@@ -1,16 +1,15 @@
 <div align="center">
 
-<a href="https://en.wikipedia.org/wiki/English_language"><img src="https://img.shields.io/badge/English-document%20language-17202A?style=flat-square" alt="English document language"></a>
-<a href="https://en.wikipedia.org/wiki/Traditional_Chinese_characters"><img src="https://img.shields.io/badge/%E7%B9%81%E9%AB%94%E4%B8%AD%E6%96%87-zh--Hant-17202A?style=flat-square" alt="Traditional Chinese document language"></a>
-<a href="https://en.wikipedia.org/wiki/Simplified_Chinese_characters"><img src="https://img.shields.io/badge/%E7%AE%80%E4%BD%93%E4%B8%AD%E6%96%87-zh--Hans-17202A?style=flat-square" alt="Simplified Chinese document language"></a>
-<a href="https://en.wikipedia.org/wiki/Japanese_language"><img src="https://img.shields.io/badge/%E6%97%A5%E6%9C%AC%E8%AA%9E-ja-17202A?style=flat-square" alt="Japanese document language"></a>
-<a href="https://en.wikipedia.org/wiki/Korean_language"><img src="https://img.shields.io/badge/%ED%95%9C%EA%B5%AD%EC%96%B4-ko-17202A?style=flat-square" alt="Korean document language"></a>
-
 # RAS — Report Anything Skill
 
 ### Turn a request and its evidence into a report people will actually read.
 
 Six visual themes · Sixteen reusable templates · DOCX + PDF + optional editable PPTX from one canonical model
+
+<a href="README.md">English</a> ·
+<a href="README.zh-CN.md">简体中文</a> ·
+<a href="README.zh-TW.md">繁體中文</a> ·
+<a href="README.ja.md">日本語</a>
 
 <a href="#quickstart">Quickstart</a> ·
 <a href="#see-it-in-action">See it in action</a> ·
@@ -52,13 +51,11 @@ Ask for the outcome in plain language:
 
 RAS turns the request into a structured project with independent Markdown blocks, a source ledger, a visual contract, and a quality receipt.
 
-### Document languages
+### Localized documentation
 
-RAS preserves Unicode text across report blocks and supports configurable CJK
-fallback fonts. English is the default document language, and the repository
-includes a validated Traditional Chinese fixture. For Simplified Chinese,
-Japanese, or Korean, set an appropriate `fonts.cjk_fallback` value in the brand
-profile and validate the rendered output on the target host.
+Read this project in [简体中文](README.zh-CN.md), [繁體中文](README.zh-TW.md),
+or [日本語](README.ja.md). RAS also preserves Unicode text in report blocks and
+supports configurable CJK fallback fonts for localized report output.
 
 ## See it in action
 
