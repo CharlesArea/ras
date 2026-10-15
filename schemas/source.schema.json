@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ras-report.example/schemas/source.schema.json",
+  "title": "RAS Source Ledger",
+  "type": "object",
+  "required": ["schema_version", "sources", "claims"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "sources": { "type": "array", "items": { "$ref": "#/$defs/source" } },
+    "claims": { "type": "array", "items": { "$ref": "#/$defs/claim" } }
+  },
+  "$defs": {
+    "source": { "type": "object", "required": ["id", "title"], "properties": { "id": { "type": "string" }, "title": { "type": "string" }, "publisher": { "type": "string" }, "author": { "type": "string" }, "url": { "type": "string" }, "file": { "type": "string" }, "publication_date": { "type": "string" }, "access_date": { "type": "string" }, "notes": { "type": "string" } } },
+    "claim": { "type": "object", "required": ["id", "statement", "source_refs"], "properties": { "id": { "type": "string" }, "statement": { "type": "string" }, "source_refs": { "type": "array", "items": { "type": "string" } }, "confidence": { "type": "string" }, "status": { "type": "string" }, "notes": { "type": "string" } } }
+  }
+}

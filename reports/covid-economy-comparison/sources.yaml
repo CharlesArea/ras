@@ -1,0 +1,64 @@
+schema_version: 1
+sources:
+  - id: S1
+    title: World Economic Outlook, April 2024 — Statistical Appendix
+    publisher: International Monetary Fund
+    url: https://www.elibrary.imf.org/display/book/9798400255892/CH005.xml
+    publication_date: "2024-04-16"
+    access_date: "2026-10-15"
+    notes: Summary world output annual percent change series used for the growth chart: 2016-2024 values in one IMF vintage.
+  - id: S2
+    title: World Employment and Social Outlook: Trends 2021
+    publisher: International Labour Organization
+    url: https://www.ilo.org/sites/default/files/wcmsp5/groups/public/@dgreports/@dcomm/@publ/documents/publication/wcms_795453.pdf
+    publication_date: "2021-06-02"
+    access_date: "2026-10-15"
+    notes: Global working-hour, employment, and uneven-impact findings for 2020 and the first half of 2021.
+  - id: S3
+    title: World Economic Outlook, April 2024
+    publisher: International Monetary Fund
+    url: https://www.imf.org/en/publications/weo/issues/2024/04/16/world-economic-outlook-april-2024
+    publication_date: "2024-04-16"
+    access_date: "2026-10-15"
+    notes: Inflation and growth context, including the projected global inflation path and comparison with the pre-pandemic norm.
+  - id: S4
+    title: Global Economic Prospects, January 2025
+    publisher: World Bank
+    url: https://documents.worldbank.org/en/publication/documents-reports/documentdetail/099310203242527356
+    publication_date: "2025-01-16"
+    access_date: "2026-10-15"
+    notes: Post-pandemic medium-term outlook and headwinds, including policy uncertainty, trade shifts, and geopolitical tensions.
+  - id: S5
+    title: What Explains Global Inflation
+    publisher: World Bank
+    url: https://www.worldbank.org/en/brief/2024/07/15/global-inflation
+    publication_date: "2024-07-15"
+    access_date: "2026-10-15"
+    notes: Explanation of the early-pandemic demand/oil shock, reopening, supply disruptions, and later disinflation.
+  - id: S6
+    title: Global Economic Prospects, June 2021
+    publisher: World Bank
+    url: https://thedocs.worldbank.org/en/doc/600223300a3685fe68016a484ee867fb-0350012021/original/Global-Economic-Prospects-June-2021.pdf
+    publication_date: "2021-06-08"
+    access_date: "2026-10-15"
+    notes: Early recovery assessment: a strong but uneven 2021 rebound after the 2020 contraction.
+claims:
+  - id: C1
+    statement: Global real GDP growth fell sharply in 2020 and rebounded strongly in 2021 before settling into a slower post-rebound pace.
+    source_refs:
+      - S1
+    confidence: high
+    status: reviewed
+  - id: C2
+    statement: The 2020 shock destroyed 8.8 percent of global working hours, equivalent to 255 million full-time jobs, relative to the 2019 baseline.
+    source_refs:
+      - S2
+    confidence: high
+    status: reviewed
+  - id: C3
+    statement: The inflation episode reflected a shift from early-pandemic demand weakness to reopening demand combined with supply and energy pressures.
+    source_refs:
+      - S3
+      - S5
+    confidence: high
+    status: reviewed

@@ -1,0 +1,16 @@
+schema_version: 1
+id: minimal
+display_name: Clear Minimal
+intent: Calm, highly legible reports with restrained accents and generous hierarchy.
+palette:
+  paper: '#FFFFFF'
+  surface: '#F5F7FA'
+  ink: '#17202A'
+  accent: '#2563EB'
+  accent_soft: '#E8F0FF'
+components:
+  cover: minimal-band
+  summary: summary-deck
+  finding: accent-rule
+  recommendation: accent-band
+  table: clean-grid

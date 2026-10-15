@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ras-report.example/schemas/block.schema.json",
+  "title": "RAS Block Contract",
+  "type": "object",
+  "required": ["id", "type", "title", "goal", "audience", "status", "source_refs", "required_facts", "layout_budget", "visual"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "id": { "type": "string", "minLength": 1 },
+    "type": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "goal": { "type": "string" },
+    "audience": { "type": "string" },
+    "status": { "enum": ["planned", "draft", "generated", "validated", "complete", "blocked"] },
+    "file": { "type": "string" },
+    "required_facts": { "type": "array", "items": { "type": "string" } },
+    "source_refs": { "type": "array", "items": { "type": "string" } },
+    "layout_budget": {},
+    "visual": { "type": "object", "properties": { "required": { "type": "boolean" }, "caption": { "type": "string" }, "alt_text": { "type": "string" }, "position": { "type": "string", "enum": ["before", "after", "inline"] }, "component": { "type": "string" }, "variant": { "type": "string" } }, "additionalProperties": true },
+    "presentation": { "type": "object", "properties": { "component": { "type": "string" }, "variant": { "type": "string" }, "span": { "type": ["string", "number"] }, "emphasis": { "type": "string" }, "break_before": { "type": "boolean" }, "keep_together": { "type": "boolean" } }, "additionalProperties": true }
+  }
+}

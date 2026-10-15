@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ras-report-anything"
+version = "0.1.0"
+description = "Portable, evidence-grounded report generation for Codex and Claude."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { file = "LICENSE" }
+authors = [{ name = "RAS contributors" }]
+dependencies = []
+
+[project.optional-dependencies]
+render = [
+  "python-docx>=1.1",
+  "reportlab>=4.0",
+  "Pillow>=10.0",
+  "pypdf>=4.0",
+  "pypdfium2>=4.0",
+]
+
+[project.scripts]
+ras-report = "ras_engine.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ras_engine = ["templates/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

@@ -1,0 +1,90 @@
+schema_version: 1
+report_id: traditional-chinese
+title: "服務穩定性摘要"
+request:
+  text: "以繁體中文建立一份簡潔的服務穩定性摘要。"
+  audience: "管理團隊"
+style_decision:
+  archetype: executive-brief
+  visual_style: institutional
+  density: concise
+  tone: professional
+  emphasis: text-balanced
+  evidence_level: sourced
+  page_geometry: portrait
+  rationale: Traditional Chinese fixture.
+  signals:
+    - explicit: "language=zh-Hant"
+  style_receipt: "executive-brief; institutional visuals; concise density; professional tone; text-balanced; sourced evidence; portrait pages. Traditional Chinese fixture."
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: summary
+    type: executive_summary
+    title: "摘要"
+    goal: "說明有來源支持的主要觀察與下一步。"
+    audience: "管理團隊"
+    status: complete
+    file: blocks/summary.md
+    required_facts:
+      - "服務可用性"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: traditional-chinese
+  formats:
+    - docx
+    - pdf
+assumptions:
+  - "本摘要只使用提供的內部備註。"
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: "未進行外部研究。"
+qa:
+  status: passed
+  run_at: "2026-10-15T05:00:31.158097+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 1
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: institutional
+    display_name: Institutional Brief
+    resolved_brand: RAS Neutral
+    signature: 8a010e7ced887f18f976
+    receipt:
+      theme: institutional
+      brand: RAS Neutral
+      density: concise
+      tone: professional
+      emphasis: text-balanced
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: 8a010e7ced887f18f976
+    page_count: 1
+    non_empty_pages: 1
+progress:
+  status: qa_passed
+  completed_blocks:
+    - summary
+  last_build: "2026-10-15T05:00:28.560514+00:00"

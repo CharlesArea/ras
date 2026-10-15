@@ -1,0 +1,21 @@
+schema_version: 1
+name: RAS Neutral
+colors:
+  paper: "#FFFFFF"
+  surface: "#F4F6F8"
+  ink: "#17202A"
+  muted: "#5D6B78"
+  rule: "#D7DEE5"
+  accent: "#175CD3"
+  positive: "#027A48"
+  warning: "#B54708"
+  negative: "#B42318"
+fonts:
+  heading: Aptos Display
+  body: Aptos
+  mono: Consolas
+  cjk_fallback: Microsoft JhengHei
+spacing:
+  page_margin: 0.72
+  section_gap: 0.24
+  paragraph_gap: 0.08

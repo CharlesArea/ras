@@ -1,0 +1,16 @@
+schema_version: 1
+id: data-forward
+display_name: Signal Dashboard
+intent: Dense, metric-led reporting with compact spacing, annotated visuals, and clear status colors.
+palette:
+  paper: '#F7FAFC'
+  surface: '#FFFFFF'
+  ink: '#102A43'
+  accent: '#0E7490'
+  accent_soft: '#DFF5F7'
+components:
+  cover: dashboard-opener
+  summary: metric-deck
+  finding: metric-callout
+  recommendation: action-strip
+  table: dense-grid

@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ras-report.example/schemas/manifest.schema.json",
+  "title": "RAS Report Manifest",
+  "type": "object",
+  "required": ["schema_version", "report_id", "title", "request", "style_decision", "blocks", "outputs"],
+  "properties": {
+    "schema_version": { "const": 1 },
+    "report_id": { "type": "string", "minLength": 1 },
+    "title": { "type": "string", "minLength": 1 },
+    "request": { "type": "object", "required": ["text"], "properties": { "text": { "type": "string" }, "audience": { "type": "string" }, "overrides": { "type": "object" } } },
+    "style_decision": { "$ref": "brand.schema.json#/definitions/styleDecision" },
+    "design": { "$ref": "brand.schema.json#/definitions/designRequest" },
+    "blocks": { "type": "array", "items": { "$ref": "block.schema.json" } },
+    "outputs": { "type": "object", "required": ["formats"], "properties": { "directory": { "type": "string" }, "filename": { "type": "string" }, "formats": { "type": "array", "items": { "enum": ["docx", "pdf"] }, "minItems": 1 } } }
+  }
+}

@@ -1,0 +1,209 @@
+schema_version: 1
+report_id: covid-economy-comparison
+title: The Global Economy Before and After COVID-19
+request:
+  text: "Explain how the global economy changed before and after the COVID-19 period, using a clear comparison of growth, inflation, work, and the post-pandemic adjustment."
+  audience: general readers and decision-makers
+style_decision:
+  archetype: analytical-deep-dive
+  visual_style: data-forward
+  density: standard
+  tone: professional
+  emphasis: visual-first
+  evidence_level: sourced
+  page_geometry: landscape
+  rationale: "A global before-and-after question calls for a sourced comparison with one anchor trend chart and clearly separated shock, rebound, and adjustment phases."
+  signals:
+    - user-input: before and after the COVID period
+    - scope: global economy assumed because no country was specified
+    - explicit: "visual_style=data-forward"
+  style_receipt: "analytical-deep-dive; data-forward visuals; standard density; professional tone; visual-first; sourced evidence; landscape pages. A global before-and-after question calls for a sourced comparison with one anchor trend chart and clearly separated shock, rebound, and adjustment phases."
+design:
+  theme: data-forward
+  density: standard
+  tone: professional
+  emphasis: visual-first
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: executive-summary
+    type: executive_summary
+    title: Executive summary
+    goal: "Answer what changed, when it changed, and what remains different after the pandemic shock."
+    audience: general readers and decision-makers
+    status: complete
+    file: blocks/executive-summary.md
+    required_facts:
+      - Global output contraction in 2020
+      - Rebound in 2021
+      - Slower post-rebound growth
+      - Persistent changes in inflation and work
+    source_refs:
+      - S1
+      - S2
+      - S3
+      - S4
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: growth-trend
+    type: chart
+    title: "Global growth moved from slowdown to shock, then a weaker normal"
+    goal: "Show the global real GDP growth path across the pre-COVID baseline, shock, rebound, and adjustment periods."
+    audience: general readers and decision-makers
+    status: complete
+    file: blocks/growth-trend.md
+    required_facts:
+      - 2016-2019 pre-COVID growth pattern
+      - 2020 contraction
+      - 2021 rebound
+      - 2022-2024 normalization
+    source_refs:
+      - S1
+    layout_budget: half-page
+    presentation:
+      break_before: true
+    visual:
+      required: true
+      kind: line
+      title: "World real GDP growth, annual percent change"
+      labels:
+        - 2016
+        - 2017
+        - 2018
+        - 2019
+        - 2020
+        - 2021
+        - 2022
+        - 2023
+        - 2024
+      values:
+        - 3.3
+        - 3.8
+        - 3.6
+        - 2.8
+        - -2.7
+        - 6.5
+        - 3.5
+        - 3.2
+        - 3.2
+      caption: "IMF World Economic Outlook April 2024 vintage; 2024 is the forecast shown in that vintage."
+      alt_text: "Line chart showing global real GDP growth at 3.3 percent in 2016, 3.8 in 2017, 3.6 in 2018, 2.8 in 2019, negative 2.7 in 2020, 6.5 in 2021, 3.5 in 2022, 3.2 in 2023, and 3.2 in 2024."
+  - id: inflation-and-policy
+    type: narrative
+    title: Inflation changed the policy environment
+    goal: Explain the path from the early-pandemic demand shock to the reopening and supply-driven inflation episode.
+    audience: general readers and decision-makers
+    status: complete
+    file: blocks/inflation-and-policy.md
+    required_facts:
+      - Early pandemic disinflation
+      - Reopening and supply disruption
+      - Inflation remained above the pre-pandemic norm during the adjustment
+    source_refs:
+      - S3
+      - S5
+    layout_budget: half-page
+    presentation:
+      break_before: true
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: labor-and-business
+    type: narrative
+    title: The labor market and businesses absorbed an uneven shock
+    goal: Describe the scale of lost work and why the headline recovery did not feel uniform across workers and firms.
+    audience: general readers and decision-makers
+    status: complete
+    file: blocks/labor-and-business.md
+    required_facts:
+      - Global working-hour loss in 2020
+      - Employment loss relative to 2019
+      - Uneven effects across workers and firms
+    source_refs:
+      - S2
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: post-covid-adjustment
+    type: recommendation
+    title: What the post-COVID economy looks like
+    goal: Synthesize the durable change and provide a practical interpretation of the new baseline.
+    audience: general readers and decision-makers
+    status: complete
+    file: blocks/post-covid-adjustment.md
+    required_facts:
+      - Growth below the long-run pre-pandemic average
+      - Continuing policy and geopolitical headwinds
+      - Recovery was uneven and left scarring risks
+    source_refs:
+      - S1
+      - S4
+      - S6
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: global-economy-before-after-covid
+  formats:
+    - docx
+    - pdf
+assumptions:
+  - Global economy is the intended scope because no country or region was specified.
+omitted_material:
+  []
+research:
+  performed: true
+  authorized: true
+  notes: "Research used official IMF, ILO, and World Bank publications and data pages accessed for this test report."
+qa:
+  status: passed
+  run_at: "2026-10-15T07:20:18.421729+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 4
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: data-forward
+    display_name: Signal Dashboard
+    resolved_brand: RAS Neutral
+    signature: e0bd1a2b6fbf853cf484
+    receipt:
+      theme: data-forward
+      brand: RAS Neutral
+      density: standard
+      tone: professional
+      emphasis: visual-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: e0bd1a2b6fbf853cf484
+    page_count: 4
+    non_empty_pages: 4
+progress:
+  status: qa_passed
+  completed_blocks:
+    - executive-summary
+    - growth-trend
+    - inflation-and-policy
+    - labor-and-business
+    - post-covid-adjustment
+  last_build: "2026-10-15T07:20:16.520748+00:00"

@@ -1,0 +1,16 @@
+schema_version: 1
+id: technical
+display_name: Technical Blueprint
+intent: Structured engineering communication with cool surfaces, blueprint accents, and implementation cues.
+palette:
+  paper: '#F4F8FA'
+  surface: '#E7F0F3'
+  ink: '#102A43'
+  accent: '#006D77'
+  accent_soft: '#DDF3F2'
+components:
+  cover: blueprint-cover
+  summary: spec-summary
+  finding: technical-note
+  recommendation: implementation-strip
+  table: spec-grid

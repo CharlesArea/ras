@@ -1,0 +1,107 @@
+schema_version: 1
+report_id: executive-brief
+title: Q3 Service Review
+request:
+  text: Create a concise executive brief for senior management from the service review notes.
+  audience: senior management
+style_decision:
+  archetype: executive-brief
+  visual_style: editorial
+  density: concise
+  tone: executive
+  emphasis: text-balanced
+  evidence_level: sourced
+  page_geometry: portrait
+  rationale: Explicit executive brief override.
+  signals:
+    - explicit: "archetype=executive-brief"
+  style_receipt: "executive-brief; editorial visuals; concise density; executive tone; text-balanced; sourced evidence; portrait pages. Explicit executive brief override."
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: executive-summary
+    type: executive_summary
+    title: Executive summary
+    goal: "State the most important supported finding, implication, and next action."
+    audience: senior management
+    status: complete
+    file: blocks/executive-summary.md
+    required_facts:
+      - Service availability trend
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: decision
+    type: recommendation
+    title: Recommended next action
+    goal: Turn the supported finding into an actionable next step.
+    audience: senior management
+    status: complete
+    file: blocks/decision.md
+    required_facts:
+      - Review owner
+    source_refs:
+      - S1
+    layout_budget: quarter-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: q3-service-review
+  formats:
+    - docx
+    - pdf
+assumptions:
+  - The supplied service review notes are the complete evidence set for this draft.
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T05:00:31.180110+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 1
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: editorial
+    display_name: Editorial Ledger
+    resolved_brand: RAS Neutral
+    signature: b8e921e168634a6c3c8b
+    receipt:
+      theme: editorial
+      brand: RAS Neutral
+      density: concise
+      tone: executive
+      emphasis: text-balanced
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: b8e921e168634a6c3c8b
+    page_count: 1
+    non_empty_pages: 1
+progress:
+  status: qa_passed
+  completed_blocks:
+    - executive-summary
+    - decision
+  last_build: "2026-10-15T05:00:28.489404+00:00"

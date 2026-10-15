@@ -1,0 +1,13 @@
+schema_version: 1
+sources:
+  - id: S1
+    title: Service component notes
+    author: Platform team
+    file: components.md
+claims:
+  - id: C1
+    statement: Requests pass through the API gateway before reaching the service and data store.
+    source_refs:
+      - S1
+    confidence: medium
+    status: reviewed

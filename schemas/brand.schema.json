@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ras-report.example/schemas/brand.schema.json",
+  "title": "RAS Brand Profile",
+  "type": "object",
+  "definitions": {
+    "styleDecision": {
+      "type": "object",
+      "required": ["archetype", "visual_style", "density", "tone", "emphasis", "evidence_level", "page_geometry"],
+      "properties": {
+        "archetype": { "type": "string" },
+        "visual_style": { "type": "string" },
+        "density": { "type": "string" },
+        "tone": { "type": "string" },
+        "emphasis": { "type": "string" },
+        "evidence_level": { "type": "string" },
+        "page_geometry": { "type": "string" },
+        "rationale": { "type": "string" },
+        "signals": { "type": "array", "items": { "type": "string" } },
+        "style_receipt": { "type": "string" }
+      }
+    },
+    "colors": { "type": "object", "additionalProperties": { "type": "string" } },
+    "fonts": { "type": "object", "additionalProperties": { "type": "string" } },
+    "designRequest": {
+      "type": "object",
+      "properties": {
+        "theme": { "type": "string", "enum": ["minimal", "editorial", "data-forward", "institutional", "technical", "narrative"] },
+        "density": { "type": "string", "enum": ["concise", "standard", "deep"] },
+        "tone": { "type": "string", "enum": ["executive", "professional", "academic", "public-friendly"] },
+        "emphasis": { "type": "string", "enum": ["text-balanced", "visual-first", "evidence-first"] }
+      }
+    }
+  },
+  "properties": {
+    "schema_version": { "const": 1 },
+    "name": { "type": "string" },
+    "colors": { "$ref": "#/definitions/colors" },
+    "fonts": { "$ref": "#/definitions/fonts" },
+    "spacing": { "type": "object", "additionalProperties": true },
+    "page": { "type": "object", "additionalProperties": true },
+    "identity": { "type": "object", "additionalProperties": true },
+    "logo": { "type": "object", "additionalProperties": true },
+    "components": { "type": "object", "additionalProperties": true },
+    "chart": { "type": "object", "additionalProperties": true },
+    "diagram": { "type": "object", "additionalProperties": true }
+  }
+}

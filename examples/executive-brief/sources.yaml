@@ -1,0 +1,15 @@
+schema_version: 1
+sources:
+  - id: S1
+    title: Q3 service review notes
+    author: Operations team
+    file: notes.md
+    publication_date: 2026-10-01
+    notes: User-supplied internal notes.
+claims:
+  - id: C1
+    statement: Availability improved during the final month of the quarter.
+    source_refs:
+      - S1
+    confidence: medium
+    status: reviewed

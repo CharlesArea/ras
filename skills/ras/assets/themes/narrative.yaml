@@ -1,0 +1,16 @@
+schema_version: 1
+id: narrative
+display_name: Narrative Fieldbook
+intent: Human, warm storytelling with chapter-like openings, soft contrast, and inviting callouts.
+palette:
+  paper: '#FFF9F3'
+  surface: '#FFF0DF'
+  ink: '#33251F'
+  accent: '#B45309'
+  accent_soft: '#FDE9D0'
+components:
+  cover: hero-fieldbook
+  summary: story-deck
+  finding: quote-finding
+  recommendation: story-action
+  table: warm-grid

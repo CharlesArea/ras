@@ -1,0 +1,14 @@
+schema_version: 1
+sources:
+  - id: S1
+    title: Operating KPI dataset
+    author: Analytics team
+    file: data.csv
+    publication_date: 2026-10-01
+claims:
+  - id: C1
+    statement: Monthly active users reached 161 in June.
+    source_refs:
+      - S1
+    confidence: high
+    status: reviewed

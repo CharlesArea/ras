@@ -1,0 +1,107 @@
+schema_version: 1
+report_id: kpi-report
+title: Monthly KPI Review
+request:
+  text: Produce a data-forward KPI performance report with a clear trend chart.
+  audience: operating team
+style_decision:
+  archetype: performance-kpi
+  visual_style: data-forward
+  density: standard
+  tone: professional
+  emphasis: visual-first
+  evidence_level: sourced
+  page_geometry: landscape
+  rationale: KPI and chart signals selected a performance review.
+  signals:
+    - performance-kpi: kpi
+    - explicit: "visual_style=data-forward"
+  style_receipt: "performance-kpi; data-forward visuals; standard density; professional tone; visual-first; sourced evidence; landscape pages. KPI and chart signals selected a performance review."
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: kpi-trend
+    type: chart
+    title: Monthly active users
+    goal: Show the reported monthly trend without implying unsupported causation.
+    audience: operating team
+    status: complete
+    file: blocks/kpi-trend.md
+    required_facts:
+      - Monthly active users
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: true
+      kind: line
+      title: Monthly active users
+      labels:
+        - Jan
+        - Feb
+        - Mar
+        - Apr
+        - May
+        - Jun
+      values:
+        - 120
+        - 134
+        - 141
+        - 139
+        - 153
+        - 161
+      caption: Monthly active users reported in the operating dataset.
+      alt_text: "Line chart showing monthly active users: Jan 120, Feb 134, Mar 141, Apr 139, May 153, Jun 161."
+outputs:
+  directory: dist
+  filename: monthly-kpi-review
+  formats:
+    - docx
+    - pdf
+assumptions:
+  - Values are reproduced as supplied and are not seasonally adjusted.
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T05:00:31.127575+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 2
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: data-forward
+    display_name: Signal Dashboard
+    resolved_brand: RAS Neutral
+    signature: e0bd1a2b6fbf853cf484
+    receipt:
+      theme: data-forward
+      brand: RAS Neutral
+      density: standard
+      tone: professional
+      emphasis: visual-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: e0bd1a2b6fbf853cf484
+    page_count: 2
+    non_empty_pages: 2
+progress:
+  status: qa_passed
+  completed_blocks:
+    - kpi-trend
+  last_build: "2026-10-15T05:00:28.668087+00:00"

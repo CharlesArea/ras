@@ -1,0 +1,16 @@
+schema_version: 1
+id: editorial
+display_name: Editorial Ledger
+intent: Considered, magazine-like analysis with serif display type, warm paper, and fine rules.
+palette:
+  paper: '#FCFAF6'
+  surface: '#F2EFE8'
+  ink: '#24211F'
+  accent: '#9A3E32'
+  accent_soft: '#F4E5E1'
+components:
+  cover: editorial-asymmetric
+  summary: opening-deck
+  finding: margin-rule
+  recommendation: editorial-band
+  table: editorial-rules

@@ -1,0 +1,90 @@
+schema_version: 1
+report_id: insufficient-evidence
+title: Evidence Gap Assessment
+request:
+  text: Produce an evidence-aware assessment that clearly exposes missing information.
+  audience: project team
+style_decision:
+  archetype: audit-assessment
+  visual_style: minimal
+  density: concise
+  tone: professional
+  emphasis: evidence-first
+  evidence_level: auditable
+  page_geometry: portrait
+  rationale: Evidence-gap fixture.
+  signals:
+    - audit-assessment: audit
+  style_receipt: "audit-assessment; minimal visuals; concise density; professional tone; evidence-first; auditable evidence; portrait pages. Evidence-gap fixture."
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: evidence-gap
+    type: audit_assessment
+    title: Evidence gap
+    goal: Explain what cannot be concluded from the available material.
+    audience: project team
+    status: complete
+    file: blocks/evidence-gap.md
+    required_facts:
+      []
+    source_refs:
+      []
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: evidence-gap-assessment
+  formats:
+    - docx
+    - pdf
+assumptions:
+  []
+omitted_material:
+  - No source records were supplied.
+research:
+  performed: false
+  authorized: false
+  notes: External research was not authorized.
+qa:
+  status: passed
+  run_at: "2026-10-15T05:00:31.146581+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 1
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: minimal
+    display_name: Clear Minimal
+    resolved_brand: RAS Neutral
+    signature: 798f76a3ba3a6356ebc4
+    receipt:
+      theme: minimal
+      brand: RAS Neutral
+      density: concise
+      tone: professional
+      emphasis: evidence-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: 798f76a3ba3a6356ebc4
+    page_count: 1
+    non_empty_pages: 1
+progress:
+  status: qa_passed
+  completed_blocks:
+    - evidence-gap
+  last_build: "2026-10-15T05:00:28.545004+00:00"

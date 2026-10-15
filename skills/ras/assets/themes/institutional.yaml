@@ -1,0 +1,16 @@
+schema_version: 1
+id: institutional
+display_name: Institutional Brief
+intent: Formal, official-looking reports with numbered findings, stable blue authority, and strong traceability.
+palette:
+  paper: '#F8FAFC'
+  surface: '#EEF2F6'
+  ink: '#1B2B3A'
+  accent: '#123B5D'
+  accent_soft: '#E4EDF5'
+components:
+  cover: official-cover
+  summary: assessment-panel
+  finding: numbered-finding
+  recommendation: formal-action
+  table: formal-grid

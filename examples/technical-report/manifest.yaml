@@ -1,0 +1,112 @@
+schema_version: 1
+report_id: technical-report
+title: Service Architecture Overview
+request:
+  text: Create a technical architecture report with an original system diagram.
+  audience: engineering team
+style_decision:
+  archetype: technical-architecture
+  visual_style: technical
+  density: standard
+  tone: professional
+  emphasis: visual-first
+  evidence_level: sourced
+  page_geometry: landscape
+  rationale: Technical architecture and diagram signals selected the architecture archetype.
+  signals:
+    - technical-architecture: architecture
+  style_receipt: "technical-architecture; technical visuals; standard density; professional tone; visual-first; sourced evidence; landscape pages. Technical architecture and diagram signals selected the architecture archetype."
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: architecture
+    type: diagram
+    title: Request path
+    goal: Explain the supported request path and system boundaries.
+    audience: engineering team
+    status: complete
+    file: blocks/architecture.md
+    required_facts:
+      - Request path components
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: true
+      kind: diagram
+      family: architecture
+      caption: Original RAS architecture diagram based on the supplied component notes.
+      alt_text: "Architecture diagram showing Client, API gateway, Service, and Data store connected in request order."
+      nodes:
+        - id: client
+          label: Client
+          level: 0
+        - id: gateway
+          label: API gateway
+          level: 1
+        - id: service
+          label: Service
+          level: 2
+        - id: data
+          label: Data store
+          level: 3
+      edges:
+        - from: client
+          to: gateway
+        - from: gateway
+          to: service
+        - from: service
+          to: data
+outputs:
+  directory: dist
+  filename: service-architecture-overview
+  formats:
+    - docx
+    - pdf
+assumptions:
+  - "The diagram captures the component relationships named in the supplied notes; deployment topology is out of scope."
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T05:00:31.037986+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 2
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+  design:
+    theme_id: technical
+    display_name: Technical Blueprint
+    resolved_brand: RAS Neutral
+    signature: c6e0296a778b338e4bca
+    receipt:
+      theme: technical
+      brand: RAS Neutral
+      density: standard
+      tone: professional
+      emphasis: visual-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: c6e0296a778b338e4bca
+    page_count: 2
+    non_empty_pages: 2
+progress:
+  status: qa_passed
+  completed_blocks:
+    - architecture
+  last_build: "2026-10-15T05:00:28.609049+00:00"
