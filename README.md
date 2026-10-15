@@ -22,6 +22,7 @@ Six visual themes · Sixteen reusable templates · DOCX + PDF + optional editabl
 <div align="center">
 
 <a href="https://github.com/CharlesArea/ras"><img src="https://img.shields.io/badge/outputs-DOCX%20%2B%20PDF%20%2B%20optional%20PPTX-117A8B?style=flat-square" alt="DOCX, PDF, and optional PPTX outputs"></a>
+<a href="https://github.com/CharlesArea/ras/releases/latest"><img src="https://img.shields.io/github/v/release/CharlesArea/ras?style=flat-square&color=117A8B" alt="Latest RAS release"></a>
 ![Themes](https://img.shields.io/badge/themes-6-117A8B?style=flat-square)
 ![Tests](https://img.shields.io/badge/tests-19%20passing-027A48?style=flat-square)
 
@@ -116,15 +117,53 @@ references plus block text in speaker notes.
   </tr>
 </table>
 
-## Install
+## Install in Codex
+
+RAS is distributed as a versioned Codex plugin. Add the marketplace for the
+stable `v0.1.0` release:
 
 ```bash
-git clone https://github.com/CharlesArea/ras.git
+codex plugin marketplace add CharlesArea/ras --ref v0.1.0
+codex plugin add ras@ras-marketplace
+```
+
+Then start a new Codex chat and ask it to use `$ras`.
+
+If you prefer the plugin browser:
+
+1. Start Codex with `codex`.
+2. Run `/plugins`.
+3. Open **RAS — Report Anything Skill** and select **Install plugin**.
+4. Follow the setup prompt to install the Python rendering runtime.
+5. Start a new chat.
+
+Example:
+
+```text
+Use $ras to turn these notes into an evidence-grounded decision memo and
+deliver DOCX, PDF, and an editable PPTX companion.
+```
+
+Codex currently installs shared skills with `codex plugin add` rather than a
+`codex skill install` command. The commands above pin the tested release. Omit
+`--ref v0.1.0` if you want the newest marketplace state from the default branch.
+
+### Download or install manually
+
+Download the packaged source from [GitHub Releases](https://github.com/CharlesArea/ras/releases/latest),
+or install the same pinned release for local development:
+
+```bash
+git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
 cd ras
 python -m pip install -e ".[render]"
 ```
 
-The host-facing skill lives at [`skills/ras/SKILL.md`](skills/ras/SKILL.md). Codex and Claude plugin manifests are included in [`.codex-plugin`](.codex-plugin/plugin.json) and [`.claude-plugin`](.claude-plugin/plugin.json).
+Python 3.11 or newer is required. The portable plugin manifest is
+[`plugin.json`](plugin.json), the marketplace catalog is
+[`marketplace.json`](.agents/plugins/marketplace.json), and host compatibility
+manifests are included for [Codex](.codex-plugin/plugin.json) and
+[Claude](.claude-plugin/plugin.json).
 
 ## Quickstart
 

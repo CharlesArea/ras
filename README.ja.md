@@ -41,15 +41,42 @@ DOCX と PDF がコア出力です。ホストに Node.js と Artifact Tool の�
 | PDF | コア出力 | Python と ReportLab |
 | PPTX | オプションの編集可能なコンパニオン | ホストの Node.js と Artifact Tool |
 
-## インストール
+## Codex にインストール
+
+RAS はバージョン付き Codex プラグインとして配布されます。安定版 `v0.1.0` のマーケットプレイスを追加します。
 
 ```bash
-git clone https://github.com/CharlesArea/ras.git
+codex plugin marketplace add CharlesArea/ras --ref v0.1.0
+codex plugin add ras@ras-marketplace
+```
+
+その後、新しい Codex チャットで `$ras` を指定します。プラグインブラウザーを使う場合は、
+`codex` を起動して `/plugins` を実行し、**RAS — Report Anything Skill** を開いて
+**Install plugin** を選択します。セットアップ案内に従って Python レンダリング環境を導入し、
+新しいチャットで次のように利用できます。
+
+```text
+Use $ras to turn these notes into an evidence-grounded decision memo and
+deliver DOCX, PDF, and an editable PPTX companion.
+```
+
+現在の Codex では、共有スキルは `codex skill install` ではなく `codex plugin add` で導入します。
+既定ブランチの最新版を利用する場合は `--ref v0.1.0` を省略してください。
+
+### ダウンロードまたは手動インストール
+
+[GitHub Releases](https://github.com/CharlesArea/ras/releases/latest) からダウンロードするか、
+ローカル開発用に同じ固定バージョンをインストールします。
+
+```bash
+git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
 cd ras
 python -m pip install -e ".[render]"
 ```
 
-ホスト向けスキルの説明は [`skills/ras/SKILL.md`](skills/ras/SKILL.md) にあります。Codex と Claude のプラグイン定義は [`.codex-plugin`](.codex-plugin/plugin.json) と [`.claude-plugin`](.claude-plugin/plugin.json) にあります。
+Python 3.11 以降が必要です。ポータブルマニフェストは [`plugin.json`](plugin.json)、
+マーケットプレイスカタログは [`marketplace.json`](.agents/plugins/marketplace.json) にあり、
+[Codex](.codex-plugin/plugin.json) と [Claude](.claude-plugin/plugin.json) の互換マニフェストも含まれます。
 
 ## クイックスタート
 

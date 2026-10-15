@@ -41,15 +41,41 @@ RAS 支持 DOCX 和 PDF 核心输出，也可以在主机具备 Node.js 与 Arti
 | PDF | 核心输出 | Python 和 ReportLab |
 | PPTX | 可选的可编辑伴侣 | 主机 Node.js 和 Artifact Tool |
 
-## 安装
+## 在 Codex 中安装
+
+RAS 以带版本的 Codex 插件形式发布。先添加稳定版 `v0.1.0` 的市场：
 
 ```bash
-git clone https://github.com/CharlesArea/ras.git
+codex plugin marketplace add CharlesArea/ras --ref v0.1.0
+codex plugin add ras@ras-marketplace
+```
+
+然后开始新的 Codex 对话并使用 `$ras`。也可以启动 `codex`，运行 `/plugins`，
+打开 **RAS — Report Anything Skill** 并选择 **Install plugin**。按设置提示安装
+Python 渲染运行环境后，开始新对话即可使用：
+
+```text
+Use $ras to turn these notes into an evidence-grounded decision memo and
+deliver DOCX, PDF, and an editable PPTX companion.
+```
+
+Codex 目前使用 `codex plugin add` 安装共享技能，而不是 `codex skill install`。
+如需跟随默认分支的最新版本，可省略 `--ref v0.1.0`。
+
+### 下载或手动安装
+
+可从 [GitHub Releases](https://github.com/CharlesArea/ras/releases/latest) 下载，
+或为本地开发安装同一个固定版本：
+
+```bash
+git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
 cd ras
 python -m pip install -e ".[render]"
 ```
 
-主机侧技能说明位于 [`skills/ras/SKILL.md`](skills/ras/SKILL.md)。Codex 和 Claude 插件清单位于 [`.codex-plugin`](.codex-plugin/plugin.json) 和 [`.claude-plugin`](.claude-plugin/plugin.json)。
+需要 Python 3.11 或更高版本。可移植插件清单位于 [`plugin.json`](plugin.json)，
+市场目录位于 [`marketplace.json`](.agents/plugins/marketplace.json)，并包含
+[Codex](.codex-plugin/plugin.json) 与 [Claude](.claude-plugin/plugin.json) 兼容清单。
 
 ## 快速开始
 

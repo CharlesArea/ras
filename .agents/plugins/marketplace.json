@@ -1,0 +1,21 @@
+{
+  "name": "ras-marketplace",
+  "interface": {
+    "displayName": "RAS — Report Anything Skill"
+  },
+  "plugins": [
+    {
+      "name": "ras",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/CharlesArea/ras.git",
+        "ref": "v0.1.0"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

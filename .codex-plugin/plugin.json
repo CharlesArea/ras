@@ -3,7 +3,10 @@
   "display_name": "RAS — Report Anything Skill",
   "version": "0.1.0",
   "description": "Create evidence-grounded DOCX, PDF, and optional editable PPTX reports with lightweight depth planning.",
-  "skills": [
-    { "path": "../skills/ras" }
-  ]
+  "skills": "./skills/",
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/setup/SKILL.md"
+    }
+  }
 }

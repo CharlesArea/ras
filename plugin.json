@@ -1,0 +1,41 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "ras",
+  "version": "0.1.0",
+  "description": "Create evidence-grounded, visually polished DOCX, PDF, and editable PPTX reports.",
+  "author": {
+    "name": "CharlesArea",
+    "url": "https://github.com/CharlesArea"
+  },
+  "homepage": "https://github.com/CharlesArea/ras",
+  "repository": "https://github.com/CharlesArea/ras",
+  "license": "MIT",
+  "keywords": [
+    "reports",
+    "docx",
+    "pdf",
+    "pptx",
+    "research",
+    "document-automation"
+  ],
+  "extensions": {
+    "com.openai": {
+      "onboardingSkill": "./skills/setup/SKILL.md",
+      "interface": {
+        "displayName": "RAS — Report Anything Skill",
+        "shortDescription": "Turn requests and evidence into designed reports.",
+        "longDescription": "Build evidence-grounded reports with depth planning, reusable templates, six visual themes, citations, and quality checks. Produce DOCX and PDF, with an optional editable PPTX companion.",
+        "developerName": "CharlesArea",
+        "category": "Productivity",
+        "capabilities": ["Read", "Write"],
+        "websiteURL": "https://github.com/CharlesArea/ras",
+        "defaultPrompt": [
+          "Create an evidence-grounded report from my source material.",
+          "Build a decision memo that compares the options and recommends a path.",
+          "Turn this research into a designed DOCX, PDF, and editable PPTX report."
+        ],
+        "brandColor": "#117A8B"
+      }
+    }
+  }
+}
