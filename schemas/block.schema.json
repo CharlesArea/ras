@@ -16,6 +16,7 @@
     "required_facts": { "type": "array", "items": { "type": "string" } },
     "source_refs": { "type": "array", "items": { "type": "string" } },
     "layout_budget": {},
+    "word_budget": { "type": "integer", "minimum": 1 },
     "visual": { "type": "object", "properties": { "required": { "type": "boolean" }, "caption": { "type": "string" }, "alt_text": { "type": "string" }, "position": { "type": "string", "enum": ["before", "after", "inline"] }, "component": { "type": "string" }, "variant": { "type": "string" } }, "additionalProperties": true },
     "presentation": { "type": "object", "properties": { "component": { "type": "string" }, "variant": { "type": "string" }, "span": { "type": ["string", "number"] }, "emphasis": { "type": "string" }, "break_before": { "type": "boolean" }, "keep_together": { "type": "boolean" } }, "additionalProperties": true }
   }

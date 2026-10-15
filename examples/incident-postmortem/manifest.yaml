@@ -1,0 +1,167 @@
+schema_version: 1
+report_id: incident-postmortem
+title: Checkout API Incident Postmortem
+request:
+  text: "Document the incident, impact, root cause, and corrective actions in a blameless postmortem."
+  audience: engineering and operations
+style_decision:
+  archetype: incident-postmortem
+  visual_style: technical
+  density: standard
+  tone: professional
+  emphasis: evidence-first
+  evidence_level: sourced
+  page_geometry: portrait
+  rationale: "A postmortem needs a factual timeline, a clear causal explanation, and owned follow-up actions."
+  signals:
+    - explicit: incident-postmortem template
+    - supplied: incident notes
+  style_receipt: "incident-postmortem; technical visuals; standard density; professional tone; evidence-first; sourced evidence; portrait pages. A postmortem needs a factual timeline, a clear causal explanation, and owned follow-up actions."
+design:
+  theme: technical
+  density: standard
+  tone: professional
+  emphasis: evidence-first
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: executive-summary
+    type: executive_summary
+    title: Executive summary
+    goal: "State what happened, impact, and current status."
+    audience: engineering and operations
+    status: complete
+    file: blocks/executive-summary.md
+    required_facts:
+      - "Checkout API elevated errors for 42 minutes, recovery completed"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: timeline
+    type: timeline
+    title: Incident timeline
+    goal: Sequence the observed events and response actions.
+    audience: engineering and operations
+    status: complete
+    file: blocks/timeline.md
+    required_facts:
+      - "Alert, mitigation, rollback, and recovery milestones"
+    source_refs:
+      - S1
+    layout_budget: full-page
+    visual:
+      required: true
+      kind: timeline
+      family: timeline
+      nodes:
+        - id: detect
+          label: "09:14 alert"
+        - id: mitigate
+          label: "09:26 mitigation"
+        - id: rollback
+          label: "09:41 rollback"
+        - id: recover
+          label: "09:56 recovery"
+      edges:
+        - from: detect
+          to: mitigate
+        - from: mitigate
+          to: rollback
+        - from: rollback
+          to: recover
+      caption: Incident response sequence from the supplied incident notes.
+      alt_text: "Timeline from a 09:14 alert through mitigation at 09:26, rollback at 09:41, and recovery at 09:56."
+  - id: root-cause
+    type: finding
+    title: Root cause and contributing factors
+    goal: "Separate direct cause, contributing factors, and evidence."
+    audience: engineering and operations
+    status: complete
+    file: blocks/root-cause.md
+    required_facts:
+      - A configuration change increased request fan-out and exhausted a downstream quota
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: actions
+    type: recommendation
+    title: Corrective actions
+    goal: "Set prevention, detection, and recovery actions with owners."
+    audience: engineering and operations
+    status: complete
+    file: blocks/actions.md
+    required_facts:
+      - "Add quota guardrails, staged configuration rollout, and alert coverage"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: checkout-api-incident-postmortem
+  formats:
+    - docx
+    - pdf
+    - pptx
+assumptions:
+  - "Times are shown in the incident team's local timezone as recorded in the supplied notes."
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T11:32:02.643134+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 2
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+    artifact-tool: available
+  design:
+    theme_id: technical
+    display_name: Technical Blueprint
+    resolved_brand: RAS Neutral
+    signature: bc683eb4478ba09de84a
+    receipt:
+      theme: technical
+      brand: RAS Neutral
+      density: standard
+      tone: professional
+      emphasis: evidence-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: bc683eb4478ba09de84a
+    page_count: 2
+    non_empty_pages: 2
+progress:
+  status: qa_passed
+  completed_blocks:
+    - executive-summary
+    - timeline
+    - root-cause
+    - actions
+  last_build: "2026-10-15T11:29:43.929724+00:00"

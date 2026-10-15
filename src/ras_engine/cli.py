@@ -13,7 +13,16 @@ from .design import THEME_PACKS, resolve_design
 from .models import ReportProject
 from .project import init_project, regenerate_block
 from .qa import run_qa
+from .planning import DEPTHS, RESEARCH_MODES
 from .validation import has_errors, issues_to_text, validate_project
+from .templates import get_template, template_ids, template_summary
+
+
+def _positive_int(value: str) -> int:
+    number = int(value)
+    if number < 1:
+        raise argparse.ArgumentTypeError("must be at least 1")
+    return number
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -31,19 +40,26 @@ def build_parser() -> argparse.ArgumentParser:
     init.add_argument("--emphasis", default=None)
     init.add_argument("--evidence-level", dest="evidence_level", default=None)
     init.add_argument("--page-geometry", dest="page_geometry", default=None)
+    init.add_argument("--template", dest="template_id", choices=template_ids(), default=None, help="Scaffold a reusable report template")
+    init.add_argument("--depth", choices=DEPTHS, default=None, help="Content depth; otherwise infer quick, standard, or deep from the request")
+    init.add_argument("--research", choices=RESEARCH_MODES, default=None, help="Research mode; web explicitly authorizes external research")
+    init.add_argument("--pages", type=_positive_int, default=None, help="Target page count; adjusts the selected content profile")
     init.add_argument("--force", action="store_true", help="Allow initialization in a non-empty directory")
 
     validate = sub.add_parser("validate", help="Validate a report manifest and its blocks")
     validate.add_argument("manifest", type=Path)
     validate.add_argument("--json", action="store_true", dest="as_json")
 
-    build = sub.add_parser("build", help="Render DOCX and/or PDF")
+    build = sub.add_parser("build", help="Render DOCX, PDF, and/or PPTX")
     build.add_argument("manifest", type=Path)
-    build.add_argument("--formats", default=None, help="Comma-separated formats: docx,pdf")
+    build.add_argument("--formats", default=None, help="Comma-separated formats: docx,pdf,pptx")
 
     qa = sub.add_parser("qa", help="Run structural and page-level quality assurance")
     qa.add_argument("manifest", type=Path)
     qa.add_argument("--json", action="store_true", dest="as_json")
+
+    plan = sub.add_parser("plan", help="Show the resolved content and research plan")
+    plan.add_argument("manifest", type=Path)
 
     regenerate = sub.add_parser("regenerate", help="Reset or replace one independent block")
     regenerate.add_argument("manifest", type=Path)
@@ -55,6 +71,12 @@ def build_parser() -> argparse.ArgumentParser:
     theme_sub.add_parser("list", help="List available theme packs")
     inspect = theme_sub.add_parser("inspect", help="Print a resolved theme pack")
     inspect.add_argument("theme_id", choices=sorted(THEME_PACKS))
+
+    template = sub.add_parser("template", help="Inspect reusable report templates")
+    template_sub = template.add_subparsers(dest="template_command", required=True)
+    template_sub.add_parser("list", help="List available report templates")
+    template_inspect = template_sub.add_parser("inspect", help="Print a report template blueprint")
+    template_inspect.add_argument("template_id", choices=template_ids())
     return parser
 
 
@@ -72,7 +94,17 @@ def main(argv: list[str] | None = None) -> int:
                 "evidence_level": args.evidence_level,
                 "page_geometry": args.page_geometry,
             }.items() if value}
-            manifest = init_project(args.directory, request=args.request, title=args.title, overrides=overrides, force=args.force)
+            manifest = init_project(
+                args.directory,
+                request=args.request,
+                title=args.title,
+                overrides=overrides,
+                template_id=args.template_id,
+                depth=args.depth,
+                research=args.research,
+                pages=args.pages,
+                force=args.force,
+            )
             print(f"Initialized RAS project: {manifest}")
             return 0
         if args.command == "validate":
@@ -102,6 +134,13 @@ def main(argv: list[str] | None = None) -> int:
                 if result["issues"]:
                     print(issues_to_text(result["issues"]))
             return 0 if result["passed"] else 1
+        if args.command == "plan":
+            project = ReportProject.load(args.manifest)
+            print(json.dumps({
+                "content_plan": project.raw_manifest.get("content_plan", {}),
+                "research": project.raw_manifest.get("research", {}),
+            }, ensure_ascii=False, indent=2))
+            return 0
         if args.command == "regenerate":
             path = regenerate_block(args.manifest, args.block_id, args.body_file)
             print(f"Prepared block for regeneration: {path}")
@@ -112,6 +151,14 @@ def main(argv: list[str] | None = None) -> int:
                     print(f"{theme_id}: {pack['display_name']}")
                 return 0
             print(json.dumps(resolve_design(args.theme_id), ensure_ascii=False, indent=2))
+            return 0
+        if args.command == "template":
+            if args.template_command == "list":
+                for template_id in template_ids():
+                    item = template_summary(template_id)
+                    print(f"{template_id}: {item['display_name']} — {item['description']}")
+                return 0
+            print(json.dumps(get_template(args.template_id), ensure_ascii=False, indent=2))
             return 0
     except (BuildError, FileExistsError, FileNotFoundError, ValueError, OSError) as exc:
         print(f"ERROR: {exc}", file=sys.stderr)

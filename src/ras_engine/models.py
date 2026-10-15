@@ -117,6 +117,7 @@ class BlockSpec:
     required_facts: list[str] = field(default_factory=list)
     source_refs: list[str] = field(default_factory=list)
     layout_budget: str | float = "standard"
+    word_budget: int | None = None
     visual: dict[str, Any] = field(default_factory=dict)
     presentation: dict[str, Any] = field(default_factory=dict)
 
@@ -134,6 +135,7 @@ class BlockSpec:
             required_facts=[str(item) for item in data.get("required_facts", []) or []],
             source_refs=[str(item) for item in data.get("source_refs", []) or []],
             layout_budget=data.get("layout_budget", "standard"),
+            word_budget=int(data["word_budget"]) if data.get("word_budget") is not None else None,
             visual=dict(data.get("visual", {}) or {}),
             presentation=dict(data.get("presentation", {}) or {}),
         )
@@ -150,6 +152,7 @@ class BlockSpec:
             "required_facts": self.required_facts,
             "source_refs": self.source_refs,
             "layout_budget": self.layout_budget,
+            **({"word_budget": self.word_budget} if self.word_budget is not None else {}),
             "visual": self.visual,
             "presentation": self.presentation,
         }

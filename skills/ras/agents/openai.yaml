@@ -1,4 +1,4 @@
 name: ras
 display_name: RAS — Report Anything Skill
-short_description: Build evidence-grounded DOCX and PDF reports from supplied material.
-default_prompt: Create a report using RAS. Inspect the request and source material, choose and record the simplest suitable archetype, validate claims and citations, and deliver DOCX and PDF with a quality receipt.
+short_description: Build evidence-grounded DOCX, PDF, and optional editable PPTX reports from supplied material.
+default_prompt: Create a report using RAS. Inspect the request and source material, infer an appropriate content depth, choose and record the simplest suitable archetype, validate claims and citations, and deliver the requested formats with a quality receipt.

@@ -1,0 +1,134 @@
+schema_version: 1
+report_id: decision-memo
+title: Customer Support Platform Decision
+request:
+  text: Compare two support platform paths and recommend the next step for the leadership team.
+  audience: leadership team
+style_decision:
+  archetype: decision-memo
+  visual_style: institutional
+  density: standard
+  tone: executive
+  emphasis: text-balanced
+  evidence_level: sourced
+  page_geometry: portrait
+  rationale: "A decision memo needs an explicit comparison, a visible decision ask, and clear ownership."
+  signals:
+    - explicit: decision-memo template
+    - supplied: internal planning notes
+  style_receipt: "decision-memo; institutional visuals; standard density; executive tone; text-balanced; sourced evidence; portrait pages. A decision memo needs an explicit comparison, a visible decision ask, and clear ownership."
+design:
+  theme: institutional
+  density: standard
+  tone: executive
+  emphasis: text-balanced
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: executive-summary
+    type: executive_summary
+    title: Executive summary
+    goal: "State the decision, the recommended path, and the main trade-off."
+    audience: leadership team
+    status: complete
+    file: blocks/executive-summary.md
+    required_facts:
+      - Current support workflow is fragmented across tools.
+      - A phased replacement is preferred over a big-bang migration.
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: options
+    type: comparison
+    title: Options and trade-offs
+    goal: "Compare the available paths against cost, risk, speed, and service impact."
+    audience: leadership team
+    status: complete
+    file: blocks/options.md
+    required_facts:
+      - Reuse current tools has lower transition cost.
+      - A new platform has higher near-term change cost but better long-term consolidation.
+    source_refs:
+      - S1
+    layout_budget: full-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: recommendation
+    type: recommendation
+    title: Recommendation and decision ask
+    goal: "State the recommended path, decision owner, and first delivery step."
+    audience: leadership team
+    status: complete
+    file: blocks/recommendation.md
+    required_facts:
+      - Approval is needed for a discovery phase.
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+outputs:
+  directory: dist
+  filename: customer-support-platform-decision
+  formats:
+    - docx
+    - pdf
+    - pptx
+assumptions:
+  - The supplied planning notes are the complete evidence set for this illustrative package.
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T11:32:02.221011+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 2
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+    artifact-tool: available
+  design:
+    theme_id: institutional
+    display_name: Institutional Brief
+    resolved_brand: RAS Neutral
+    signature: d4e2f8442e893716109a
+    receipt:
+      theme: institutional
+      brand: RAS Neutral
+      density: standard
+      tone: executive
+      emphasis: text-balanced
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: d4e2f8442e893716109a
+    page_count: 2
+    non_empty_pages: 2
+progress:
+  status: qa_passed
+  completed_blocks:
+    - executive-summary
+    - options
+    - recommendation
+  last_build: "2026-10-15T11:24:50.529698+00:00"

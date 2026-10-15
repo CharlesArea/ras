@@ -7,6 +7,7 @@ import zipfile
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
+from xml.etree import ElementTree
 
 from .design import design_signature
 from .models import ReportProject
@@ -26,6 +27,8 @@ def run_qa(manifest_path: str | Path) -> dict[str, Any]:
             issues.extend(_qa_docx(target, project))
         elif fmt == "pdf" and target.exists():
             issues.extend(_qa_pdf(target, project))
+        elif fmt == "pptx" and target.exists():
+            issues.extend(_qa_pptx(target, project))
     issues.extend(_qa_cross_format(project))
     rendered_pages = _render_pdf_pages(project)
     visual_receipt = _visual_regression_receipt(project, rendered_pages)
@@ -106,32 +109,68 @@ def _qa_pdf(path: Path, project: ReportProject) -> list[Issue]:
     return issues
 
 
+def _qa_pptx(path: Path, project: ReportProject) -> list[Issue]:
+    """Inspect the editable presentation package and its slide text."""
+
+    issues: list[Issue] = []
+    try:
+        with zipfile.ZipFile(path) as archive:
+            names = set(archive.namelist())
+            if "ppt/presentation.xml" not in names:
+                issues.append(Issue("error", "pptx-structure", "PPTX is missing ppt/presentation.xml", str(path)))
+            slide_names = sorted(name for name in names if name.startswith("ppt/slides/slide") and name.endswith(".xml"))
+            if not slide_names:
+                issues.append(Issue("error", "pptx-slides", "PPTX contains no slide XML", str(path)))
+            for name in names:
+                if name.startswith("ppt/media/") and archive.getinfo(name).file_size == 0:
+                    issues.append(Issue("error", "pptx-asset", f"PPTX contains an empty media asset: {name}", str(path)))
+            text = "\n".join(_xml_text(archive.read(name)) for name in slide_names)
+            for placeholder in unresolved_placeholders(text):
+                issues.append(Issue("error", "pptx-placeholder", f"PPTX contains unresolved placeholder: {placeholder}", str(path)))
+            if _normalized_text(project.title) not in _normalized_text(text):
+                issues.append(Issue("error", "pptx-title", "PPTX does not contain the report title", str(path)))
+            for block in project.blocks:
+                if _normalized_text(block.spec.title) not in _normalized_text(text):
+                    issues.append(Issue("error", "pptx-section", f"PPTX does not contain section title: {block.spec.title}", str(path)))
+    except (zipfile.BadZipFile, OSError, ElementTree.ParseError) as exc:
+        issues.append(Issue("error", "pptx-open", f"PPTX cannot be inspected: {exc}", str(path)))
+    return issues
+
+
 def _qa_cross_format(project: ReportProject) -> list[Issue]:
     issues: list[Issue] = []
     outputs = project.raw_manifest.get("outputs", {}) or {}
     filename = slugify(str(outputs.get("filename", project.report_id)), project.report_id)
     required_titles = [project.title] + [block.spec.title for block in project.blocks]
-    docx_text = ""
-    pdf_text = ""
+    texts: dict[str, str] = {}
     if "docx" in outputs.get("formats", []) or (project.output_dir / f"{filename}.docx").exists():
         try:
             from docx import Document
 
             docx = Document(project.output_dir / f"{filename}.docx")
-            docx_text = _docx_text(docx)
+            texts["docx"] = _docx_text(docx)
         except Exception:
             pass
     if "pdf" in outputs.get("formats", []) or (project.output_dir / f"{filename}.pdf").exists():
         try:
             from pypdf import PdfReader
 
-            pdf_text = "\n".join(page.extract_text() or "" for page in PdfReader(project.output_dir / f"{filename}.pdf").pages)
+            texts["pdf"] = "\n".join(page.extract_text() or "" for page in PdfReader(project.output_dir / f"{filename}.pdf").pages)
         except Exception:
             pass
-    if docx_text and pdf_text:
+    pptx_path = project.output_dir / f"{filename}.pptx"
+    if "pptx" in outputs.get("formats", []) or pptx_path.exists():
+        try:
+            texts["pptx"] = _pptx_text(pptx_path)
+        except Exception:
+            pass
+    normalized_texts = {name: _normalized_text(text) for name, text in texts.items() if text}
+    if len(normalized_texts) >= 2:
         for title in required_titles:
-            if title not in docx_text or title not in pdf_text:
-                issues.append(Issue("error", "format-parity", f"Section/title missing from one output format: {title}", "outputs"))
+            normalized_title = _normalized_text(title)
+            missing = [name for name, text in normalized_texts.items() if normalized_title not in text]
+            if missing:
+                issues.append(Issue("error", "format-parity", f"Section/title missing from {', '.join(missing)}: {title}", "outputs"))
     return issues
 
 
@@ -167,6 +206,12 @@ def _renderer_versions() -> dict[str, str]:
             versions[package_name] = str(getattr(module, "__version__", "available"))
         except Exception:
             versions[package_name] = "unavailable"
+    try:
+        from .render_pptx import _find_artifact_tool
+
+        versions["artifact-tool"] = "available" if _find_artifact_tool() else "unavailable"
+    except Exception:
+        versions["artifact-tool"] = "unavailable"
     return versions
 
 
@@ -205,3 +250,20 @@ def _docx_text(doc: Any) -> str:
         for row in table.rows:
             chunks.extend(cell.text for cell in row.cells)
     return "\n".join(chunks)
+
+
+def _pptx_text(path: Path) -> str:
+    with zipfile.ZipFile(path) as archive:
+        slide_names = sorted(name for name in archive.namelist() if name.startswith("ppt/slides/slide") and name.endswith(".xml"))
+        return "\n".join(_xml_text(archive.read(name)) for name in slide_names)
+
+
+def _xml_text(content: bytes) -> str:
+    root = ElementTree.fromstring(content)
+    return "\n".join(node.text or "" for node in root.iter() if node.tag.endswith("}t"))
+
+
+def _normalized_text(value: str) -> str:
+    """Normalize layout whitespace before comparing extracted DOCX/PDF text."""
+
+    return " ".join(str(value).replace("\x7f", " ").split())

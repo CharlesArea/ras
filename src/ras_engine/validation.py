@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from .models import ARCHETYPES, BLOCK_STATUSES, DENSITIES, EMPHASES, EVIDENCE_LEVELS, GEOMETRIES, TONES, VISUAL_STYLES, ReportProject
+from .planning import DEPTHS, RESEARCH_MODES
 from .security import ensure_within, unresolved_placeholders
 
 
@@ -66,6 +67,18 @@ def validate_project(project: ReportProject, *, check_outputs: bool = False) -> 
     ]:
         if value is not None and value not in allowed:
             issues.append(Issue("error", f"design-{key}", f"Unsupported design value {value!r}", f"design.{key}"))
+    content_plan = raw.get("content_plan", {}) or {}
+    if content_plan:
+        profile = content_plan.get("profile")
+        if profile not in DEPTHS:
+            issues.append(Issue("error", "content-plan-profile", f"Unsupported content profile {profile!r}", "content_plan.profile"))
+        target_pages = content_plan.get("target_pages")
+        if target_pages is not None and (not isinstance(target_pages, int) or not 1 <= target_pages <= 100):
+            issues.append(Issue("error", "content-plan-pages", "Content plan target_pages must be an integer between 1 and 100", "content_plan.target_pages"))
+    research = raw.get("research", {}) or {}
+    research_mode = research.get("mode")
+    if research_mode is not None and research_mode not in RESEARCH_MODES:
+        issues.append(Issue("error", "research-mode", f"Unsupported research mode {research_mode!r}", "research.mode"))
     issues.extend(_validate_brand_contrast(project))
 
     manifest_blocks = raw.get("blocks", []) or []
@@ -110,6 +123,8 @@ def validate_project(project: ReportProject, *, check_outputs: bool = False) -> 
             issues.append(Issue("error", "block-fields", f"Block {spec.id or '<unnamed>'} requires id, title, and goal", str(block.path)))
         if spec.status not in BLOCK_STATUSES:
             issues.append(Issue("error", "block-status", f"Unsupported block status {spec.status!r}", str(block.path)))
+        if spec.word_budget is not None and spec.word_budget < 1:
+            issues.append(Issue("error", "block-word-budget", f"Block {spec.id} word_budget must be positive", str(block.path)))
         try:
             ensure_within(project.root, block.path)
         except ValueError as exc:

@@ -1,0 +1,175 @@
+schema_version: 1
+report_id: strategy-roadmap
+title: Customer Operations Strategy Roadmap
+request:
+  text: Turn the operating priorities into a sequenced roadmap with milestones and measures.
+  audience: customer operations leadership
+style_decision:
+  archetype: strategy-roadmap
+  visual_style: narrative
+  density: standard
+  tone: professional
+  emphasis: visual-first
+  evidence_level: sourced
+  page_geometry: landscape
+  rationale: "A roadmap benefits from a clear sequence, visible ownership, and a small set of measurable outcomes."
+  signals:
+    - explicit: strategy-roadmap template
+    - supplied: operating planning notes
+  style_receipt: "strategy-roadmap; narrative visuals; standard density; professional tone; visual-first; sourced evidence; landscape pages. A roadmap benefits from a clear sequence, visible ownership, and a small set of measurable outcomes."
+design:
+  theme: narrative
+  density: standard
+  tone: professional
+  emphasis: visual-first
+blocks_directory: blocks
+sources_file: sources.yaml
+blocks:
+  - id: executive-summary
+    type: executive_summary
+    title: Executive summary
+    goal: State the strategy and the outcome it is intended to create.
+    audience: customer operations leadership
+    status: complete
+    file: blocks/executive-summary.md
+    required_facts:
+      - "Reduce response friction, improve visibility, and build repeatable service operations"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: priorities
+    type: finding
+    title: Strategic priorities
+    goal: Describe the few priorities that guide choices.
+    audience: customer operations leadership
+    status: complete
+    file: blocks/priorities.md
+    required_facts:
+      - "Simplify intake, improve knowledge reuse, and make service health visible"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: false
+      caption: ""
+      alt_text: ""
+  - id: roadmap
+    type: timeline
+    title: Roadmap and milestones
+    goal: "Sequence the work with timing, dependencies, and owners."
+    audience: customer operations leadership
+    status: complete
+    file: blocks/roadmap.md
+    required_facts:
+      - "Foundation, pilot, and scale phases"
+    source_refs:
+      - S1
+    layout_budget: full-page
+    presentation:
+      break_before: true
+    visual:
+      required: true
+      kind: timeline
+      family: timeline
+      nodes:
+        - id: foundation
+          label: Q1 foundation
+        - id: pilot
+          label: Q2 pilot
+        - id: scale
+          label: Q3 scale
+      edges:
+        - from: foundation
+          to: pilot
+        - from: pilot
+          to: scale
+      caption: Illustrative sequence from the supplied operating plan.
+      alt_text: Three-stage roadmap moving from foundation in Q1 to pilot in Q2 and scale in Q3.
+  - id: measures
+    type: metric_panel
+    title: Measures and governance
+    goal: Define how progress will be monitored and reviewed.
+    audience: customer operations leadership
+    status: complete
+    file: blocks/measures.md
+    required_facts:
+      - "Response time, self-service resolution, and backlog health are the first measures"
+    source_refs:
+      - S1
+    layout_budget: half-page
+    visual:
+      required: true
+      kind: bar
+      title: Illustrative first-quarter targets
+      labels:
+        - Response time
+        - Self-service
+        - Backlog health
+      values:
+        - 70
+        - 55
+        - 65
+      caption: "Illustrative target index for the first governance cycle; not a historical performance claim."
+      alt_text: "Bar chart showing illustrative target index values of 70 for response time, 55 for self-service, and 65 for backlog health."
+outputs:
+  directory: dist
+  filename: customer-operations-strategy-roadmap
+  formats:
+    - docx
+    - pdf
+    - pptx
+assumptions:
+  - The sequence and target index are illustrative planning values from the supplied example notes.
+omitted_material:
+  []
+research:
+  performed: false
+  authorized: false
+  notes: No external research performed.
+qa:
+  status: passed
+  run_at: "2026-10-15T11:32:02.452864+00:00"
+  issue_count: 0
+  error_count: 0
+  warning_count: 0
+  rendered_pdf_pages: 4
+  results:
+    []
+  renderer_versions:
+    python-docx: 1.2.0
+    reportlab: 4.4.9
+    Pillow: 12.3.0
+    pypdf: 6.10.0
+    pypdfium2: available
+    artifact-tool: available
+  design:
+    theme_id: narrative
+    display_name: Narrative Fieldbook
+    resolved_brand: RAS Neutral
+    signature: f03bb7e6f87fe9f7e443
+    receipt:
+      theme: narrative
+      brand: RAS Neutral
+      density: standard
+      tone: professional
+      emphasis: visual-first
+      custom_brand: false
+  visual_regression:
+    status: passed
+    method: theme-signature-and-rendered-page-integrity
+    baseline: not-configured
+    signature: f03bb7e6f87fe9f7e443
+    page_count: 4
+    non_empty_pages: 4
+progress:
+  status: qa_passed
+  completed_blocks:
+    - executive-summary
+    - priorities
+    - roadmap
+    - measures
+  last_build: "2026-10-15T11:29:30.325475+00:00"

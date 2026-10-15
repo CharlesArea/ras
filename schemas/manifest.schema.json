@@ -11,7 +11,9 @@
     "request": { "type": "object", "required": ["text"], "properties": { "text": { "type": "string" }, "audience": { "type": "string" }, "overrides": { "type": "object" } } },
     "style_decision": { "$ref": "brand.schema.json#/definitions/styleDecision" },
     "design": { "$ref": "brand.schema.json#/definitions/designRequest" },
+    "content_plan": { "type": "object", "properties": { "profile": { "enum": ["quick", "standard", "deep"] }, "target_pages": { "type": "integer", "minimum": 1, "maximum": 100 }, "page_range": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 2 }, "target_words": { "type": "integer", "minimum": 1 }, "word_range": { "type": "array", "items": { "type": "integer", "minimum": 1 }, "minItems": 2, "maxItems": 2 }, "target_slides": { "type": "integer", "minimum": 1 }, "sections": { "type": "array" } }, "additionalProperties": true },
+    "research": { "type": "object", "properties": { "mode": { "enum": ["none", "provided", "web"] }, "performed": { "type": "boolean" }, "authorized": { "type": "boolean" }, "notes": { "type": "string" } }, "additionalProperties": true },
     "blocks": { "type": "array", "items": { "$ref": "block.schema.json" } },
-    "outputs": { "type": "object", "required": ["formats"], "properties": { "directory": { "type": "string" }, "filename": { "type": "string" }, "formats": { "type": "array", "items": { "enum": ["docx", "pdf"] }, "minItems": 1 } } }
+    "outputs": { "type": "object", "required": ["formats"], "properties": { "directory": { "type": "string" }, "filename": { "type": "string" }, "formats": { "type": "array", "items": { "enum": ["docx", "pdf", "pptx"] }, "minItems": 1 } } }
   }
 }

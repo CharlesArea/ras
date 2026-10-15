@@ -156,6 +156,7 @@ outputs:
   formats:
     - docx
     - pdf
+    - pptx
 assumptions:
   - Global economy is the intended scope because no country or region was specified.
 omitted_material:
@@ -166,7 +167,7 @@ research:
   notes: "Research used official IMF, ILO, and World Bank publications and data pages accessed for this test report."
 qa:
   status: passed
-  run_at: "2026-10-15T07:20:18.421729+00:00"
+  run_at: "2026-10-15T11:32:02.051909+00:00"
   issue_count: 0
   error_count: 0
   warning_count: 0
@@ -179,6 +180,7 @@ qa:
     Pillow: 12.3.0
     pypdf: 6.10.0
     pypdfium2: available
+    artifact-tool: available
   design:
     theme_id: data-forward
     display_name: Signal Dashboard
@@ -206,4 +208,4 @@ progress:
     - inflation-and-policy
     - labor-and-business
     - post-covid-adjustment
-  last_build: "2026-10-15T07:20:16.520748+00:00"
+  last_build: "2026-10-15T10:49:32.444943+00:00"

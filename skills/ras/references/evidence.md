@@ -8,5 +8,7 @@ statement, source references, confidence, and an optional status.
 Use user-provided material first. External claims require a source record. Use
 numbered citation markers such as `[S1]` in professional reports and resolve
 every marker to an existing source. Label assumptions, estimates, conflicts,
-limitations, and missing information. Never make a citation look authoritative
-when its source cannot be found.
+limitations, and missing information. The default `provided` research mode
+works from the supplied package. The `web` mode explicitly authorizes external
+research; add every external source to `sources.yaml` before using its claims.
+Never make a citation look authoritative when its source cannot be found.

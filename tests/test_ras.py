@@ -13,8 +13,10 @@ from ras_engine.build import build_project
 from ras_engine.markdown import inline_markup, parse_inline
 from ras_engine.models import ReportProject
 from ras_engine.project import init_project, regenerate_block
+from ras_engine.planning import infer_depth, resolve_research_mode
 from ras_engine.routing import route_request
 from ras_engine.security import UnsafePathError, ensure_within
+from ras_engine.templates import template_ids
 from ras_engine.validation import has_errors, validate_project
 
 
@@ -28,6 +30,13 @@ class RoutingTests(unittest.TestCase):
         decision = route_request("Create a KPI dashboard with monthly metrics and a trend chart")
         self.assertEqual(decision.archetype, "performance-kpi")
         self.assertEqual(decision.visual_style, "data-forward")
+
+    def test_content_depth_is_inferred_without_intake_questions(self) -> None:
+        self.assertEqual(infer_depth("Give me a detailed long-form comparison"), "deep")
+        self.assertEqual(infer_depth("Write a concise one-page brief"), "quick")
+        self.assertEqual(infer_depth("Summarize the supplied status notes"), "standard")
+        self.assertEqual(resolve_research_mode(None, "Look up the latest information online"), ("web", "inferred"))
+        self.assertEqual(resolve_research_mode(None, "Synthesize the supplied research notes"), ("provided", "default"))
 
 
 class MarkdownTests(unittest.TestCase):
@@ -53,11 +62,47 @@ class ProjectTests(unittest.TestCase):
             self.assertEqual(len(project.blocks), 1)
             self.assertFalse(has_errors(validate_project(project)))
 
+    def test_template_catalog_scaffolds_multi_block_package(self) -> None:
+        self.assertGreaterEqual(len(template_ids()), 16)
+        with tempfile.TemporaryDirectory(dir=ROOT) as temp:
+            manifest = init_project(
+                Path(temp) / "decision",
+                request="Compare the options and recommend a path",
+                template_id="decision-memo",
+            )
+            project = ReportProject.load(manifest)
+            self.assertEqual(project.raw_manifest["template"], "decision-memo")
+            self.assertEqual([block.spec.id for block in project.blocks], ["executive-summary", "options", "recommendation"])
+            self.assertFalse(has_errors(validate_project(project)), validate_project(project))
+
+    def test_content_plan_records_depth_pages_and_research(self) -> None:
+        with tempfile.TemporaryDirectory(dir=ROOT) as temp:
+            manifest = init_project(
+                Path(temp) / "deep-report",
+                request="Compare the economic changes before and after COVID",
+                template_id="comparative-evaluation",
+                pages=15,
+                research="web",
+            )
+            project = ReportProject.load(manifest)
+            plan = project.raw_manifest["content_plan"]
+            self.assertEqual(plan["profile"], "standard")
+            self.assertEqual(plan["target_pages"], 15)
+            self.assertGreater(plan["target_words"], 5000)
+            self.assertGreater(plan["word_range"][0], 3000)
+            self.assertEqual(project.raw_manifest["research"]["mode"], "web")
+            self.assertTrue(project.raw_manifest["research"]["authorized"])
+            self.assertTrue(all(block.spec.word_budget for block in project.blocks))
+            self.assertFalse(has_errors(validate_project(project)), validate_project(project))
+
     def test_examples_validate(self) -> None:
         for manifest in [
             ROOT / "examples" / "executive-brief" / "manifest.yaml",
             ROOT / "examples" / "kpi-report" / "manifest.yaml",
             ROOT / "examples" / "technical-report" / "manifest.yaml",
+            ROOT / "examples" / "decision-memo" / "manifest.yaml",
+            ROOT / "examples" / "strategy-roadmap" / "manifest.yaml",
+            ROOT / "examples" / "incident-postmortem" / "manifest.yaml",
             ROOT / "fixtures" / "traditional-chinese" / "manifest.yaml",
             ROOT / "fixtures" / "insufficient-evidence" / "manifest.yaml",
         ]:

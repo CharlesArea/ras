@@ -1,0 +1,14 @@
+schema_version: 1
+sources:
+  - id: S1
+    title: Customer operations strategy planning notes
+    author: Customer operations leadership
+    file: notes.md
+    publication_date: 2026-09-15
+    notes: User-supplied illustrative planning notes for the example package.
+claims:
+  - id: C1
+    statement: The roadmap should sequence foundation, pilot, and scale rather than launch every change at once.
+    source_refs: ["S1"]
+    confidence: medium
+    status: reviewed

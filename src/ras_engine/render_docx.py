@@ -77,7 +77,7 @@ def render_docx(project: ReportProject, output_path: str | Path, visuals: dict[s
         if visual_first and figure:
             figure_index += 1
             _add_visual(doc, figure, block.spec.visual, figure_index, Inches, Pt, WD_ALIGN_PARAGRAPH)
-        _add_elements(doc, elements, colors, fonts, Pt, WD_ALIGN_PARAGRAPH, WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT, OxmlElement, qn)
+        _add_elements(doc, elements, colors, fonts, Pt, RGBColor, WD_ALIGN_PARAGRAPH, WD_TABLE_ALIGNMENT, WD_CELL_VERTICAL_ALIGNMENT, OxmlElement, qn)
         if not visual_first and figure:
             figure_index += 1
             _add_visual(doc, figure, block.spec.visual, figure_index, Inches, Pt, WD_ALIGN_PARAGRAPH)
@@ -215,7 +215,7 @@ def _configure_header(section: Any, project: ReportProject, design: dict[str, An
     _set_paragraph_border(paragraph, _hex(colors.get("accent", "#2563EB")), OxmlElement, qn)
 
 
-def _add_elements(doc: Any, elements: list[Element], colors: dict[str, Any], fonts: dict[str, Any], Pt: Any, WD_ALIGN_PARAGRAPH: Any, WD_TABLE_ALIGNMENT: Any, WD_CELL_VERTICAL_ALIGNMENT: Any, OxmlElement: Any, qn: Any) -> None:
+def _add_elements(doc: Any, elements: list[Element], colors: dict[str, Any], fonts: dict[str, Any], Pt: Any, RGBColor: Any, WD_ALIGN_PARAGRAPH: Any, WD_TABLE_ALIGNMENT: Any, WD_CELL_VERTICAL_ALIGNMENT: Any, OxmlElement: Any, qn: Any) -> None:
     for element in elements:
         if element.kind == "heading":
             level = min(3, max(2, element.level))

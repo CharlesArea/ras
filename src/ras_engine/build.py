@@ -1,4 +1,4 @@
-"""Build orchestration for DOCX/PDF outputs."""
+"""Build orchestration for DOCX, PDF, and PPTX outputs."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ from .layout import plan_project
 from .project import slugify
 from .render_docx import render_docx
 from .render_pdf import render_pdf
+from .render_pptx import render_pptx
 from .routing import style_receipt
 from .validation import has_errors, validate_project
 from .visuals import prepare_visuals
@@ -28,7 +29,7 @@ def build_project(manifest_path: str | Path, formats: list[str] | None = None, *
     if has_errors(issues):
         raise BuildError("Validation failed before rendering: " + "; ".join(issue.message for issue in issues if issue.severity == "error"))
     requested = [str(item).lower().lstrip(".") for item in (formats or project.raw_manifest.get("outputs", {}).get("formats", ["docx", "pdf"]))]
-    unsupported = sorted(set(requested) - {"docx", "pdf"})
+    unsupported = sorted(set(requested) - {"docx", "pdf", "pptx"})
     if unsupported:
         raise BuildError(f"Unsupported output format(s): {', '.join(unsupported)}")
     build_dir = project.root / "build"
@@ -44,6 +45,8 @@ def build_project(manifest_path: str | Path, formats: list[str] | None = None, *
             render_docx(project, target, visuals)
         elif fmt == "pdf":
             render_pdf(project, target, visuals)
+        elif fmt == "pptx":
+            render_pptx(project, target, visuals)
         outputs[fmt] = str(target)
     model_path = build_dir / "canonical-model.json"
     model = {
@@ -51,6 +54,8 @@ def build_project(manifest_path: str | Path, formats: list[str] | None = None, *
         "report_id": project.report_id,
         "title": project.title,
         "style_decision": project.style.to_dict(),
+        "content_plan": project.raw_manifest.get("content_plan", {}),
+        "research": project.raw_manifest.get("research", {}),
         "design": {
             "theme_id": project.design.get("theme_id"),
             "display_name": project.design.get("display_name"),
