@@ -6,7 +6,7 @@
 
 ### Convierte una solicitud y su evidencia en un informe que la gente realmente quiere leer.
 
-Seis temas visuales · Dieciséis plantillas reutilizables · DOCX + PDF + PPTX editable opcional desde un modelo canónico
+Skill para Codex y Claude Code · Seis temas visuales · Dieciséis plantillas · DOCX + PDF + PPTX editable opcional
 
 [English](README.md) ·
 <a href="README.zh-CN.md">简体中文</a> ·
@@ -44,6 +44,8 @@ RAS convierte la solicitud en un proyecto estructurado con bloques Markdown inde
 ### Documentación localizada
 
 Lee el proyecto en [简体中文](README.zh-CN.md), [繁體中文](README.zh-TW.md), [日本語](README.ja.md), [한국어](README.ko.md), [Español](README.es.md), [Français](README.fr.md), [Deutsch](README.de.md), [Português (Brasil)](README.pt-BR.md) o [Русский](README.ru.md). RAS conserva el texto Unicode en los bloques y admite fuentes CJK de respaldo configurables.
+
+**Empieza con RAS:** [Instálalo en Codex o Claude Code](#install-guide).
 
 ## En acción
 
@@ -88,37 +90,74 @@ El renderizador de presentaciones adapta el mismo paquete a una presentación pa
   </tr>
 </table>
 
-## Instalar en Codex
+<a id="install-guide"></a>
 
-RAS se distribuye como un plugin versionado de Codex. Añade el marketplace de la versión estable `v0.1.0`:
+## Instalar en Codex o Claude Code
+
+RAS es una habilidad para crear informes, empaquetada como plugin para Codex y Claude Code. Instálala en el agente que uses. `ras-report` es un renderizador opcional para uso directo o mediante scripts.
+
+### Codex
+
+En la terminal de Codex, añade el marketplace de la versión estable `v0.1.0` e instala el plugin:
 
 ```bash
 codex plugin marketplace add CharlesArea/ras --ref v0.1.0
 codex plugin add ras@ras-marketplace
 ```
 
-Después inicia un chat nuevo de Codex y pide usar `$ras`. Desde el navegador de plugins, inicia `codex`, ejecuta `/plugins`, abre **RAS — Report Anything Skill** y elige **Install plugin**. Sigue la configuración para instalar el entorno de renderizado de Python.
+Para instalarlo desde el navegador de plugins de la app Codex, ejecuta solo el primer comando para registrar el marketplace. Después abre `/plugins`, selecciona **RAS — Report Anything Skill** y elige **Install plugin**. Inicia luego un chat nuevo de Codex e invoca `$ras`.
 
 ```text
 Use $ras to turn these notes into an evidence-grounded decision memo and
 deliver DOCX, PDF, and an editable PPTX companion.
 ```
 
-Codex instala actualmente las habilidades compartidas con `codex plugin add`, no con `codex skill install`. Los comandos anteriores fijan la versión probada; omite `--ref v0.1.0` para usar el estado más reciente del marketplace.
+### Claude Code
 
-### Descargar o instalar manualmente
-
-Descarga el código empaquetado desde [GitHub Releases](https://github.com/CharlesArea/ras/releases/latest) o instala la misma versión fijada para desarrollo local:
+Añade el marketplace de RAS e instala el plugin desde una terminal de Claude Code:
 
 ```bash
-git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
-cd ras
-python -m pip install -e ".[render]"
+claude plugin marketplace add CharlesArea/ras
+claude plugin install ras@ras-marketplace
 ```
 
-Se requiere Python 3.11 o posterior. El manifiesto portátil es [`plugin.json`](plugin.json), el catálogo está en [`marketplace.json`](.agents/plugins/marketplace.json) y también se incluyen manifiestos compatibles con [Codex](.codex-plugin/plugin.json) y [Claude](.claude-plugin/plugin.json).
+En una sesión interactiva también puedes ejecutar `/plugin marketplace add CharlesArea/ras` y después `/plugin install ras@ras-marketplace`, y elegir el alcance de instalación. La habilidad se invoca con `/ras:ras`; para configurar el renderizador, usa `/ras:setup`. Consulta la [guía de instalación de plugins de Claude Code](https://code.claude.com/docs/en/plugins/install).
+
+### Archivos del plugin y los marketplaces
+
+El manifiesto portable es [`plugin.json`](plugin.json). Hay catálogos para [Codex](.agents/plugins/marketplace.json) y [Claude Code](.claude-plugin/marketplace.json), además de manifiestos compatibles con [Codex](.codex-plugin/plugin.json) y [Claude Code](.claude-plugin/plugin.json).
 
 ## Inicio rápido
+
+Pide al skill instalado que cree el informe a partir de tu solicitud. Indica si necesitas un análisis detallado, investigación externa o archivos DOCX y PDF.
+
+En Codex:
+
+```text
+$ras Crea un informe detallado y basado en evidencias que compare la economía
+antes y después de la COVID. Investiga fuentes primarias actuales, explica los
+cambios y las limitaciones, y entrega DOCX y PDF.
+```
+
+En Claude Code:
+
+```text
+/ras:ras Crea un informe detallado y basado en evidencias que compare la
+economía antes y después de la COVID. Investiga fuentes primarias actuales,
+explica los cambios y las limitaciones, y entrega DOCX y PDF.
+```
+
+RAS infiere un plan rápido, estándar o profundo a partir de la solicitud. Para renderizar DOCX/PDF se necesita el renderizador local con Python 3.11 o posterior; acepta la configuración cuando se te ofrezca. PPTX es opcional y requiere un host compatible con Node.js y Artifact Tool.
+
+## Opcional: usar directamente el renderizador CLI
+
+Esta sección es solo para usar el renderizador directamente o mediante scripts. No instala la habilidad:
+
+```bash
+python -m pip install "ras-report-anything[render] @ git+https://github.com/CharlesArea/ras.git@v0.1.0"
+```
+
+Se requiere Python 3.11 o posterior.
 
 Inicializa un proyecto de informe:
 
@@ -150,7 +189,7 @@ ras-report build reports/my-report/manifest.yaml --formats docx,pdf,pptx
 ras-report qa reports/my-report/manifest.yaml
 ```
 
-DOCX y PDF son las salidas principales. PPTX es un compañero editable opcional y requiere el Node.js incluido y Artifact Tool del host.
+DOCX y PDF son las salidas principales. PPTX es un compañero editable opcional y requiere un host compatible con Node.js y Artifact Tool.
 
 ### Formatos de salida
 
@@ -158,7 +197,7 @@ DOCX y PDF son las salidas principales. PPTX es un compañero editable opcional 
 | --- | --- | --- |
 | DOCX | Salida principal | Python con `python-docx` |
 | PDF | Salida principal | Python con ReportLab |
-| PPTX | Compañero editable opcional | Node.js del host y Artifact Tool |
+| PPTX | Compañero editable opcional | Host compatible con Node.js y Artifact Tool |
 
 ### Proyecto de informe
 

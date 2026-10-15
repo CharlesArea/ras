@@ -1,9 +1,9 @@
 {
   "name": "ras",
-  "display_name": "RAS — Report Anything Skill",
-  "version": "0.1.0",
   "description": "Create evidence-grounded DOCX, PDF, and optional editable PPTX reports with lightweight depth planning.",
-  "skills": [
-    "../skills/ras"
-  ]
+  "version": "0.1.0",
+  "author": {
+    "name": "CharlesArea",
+    "url": "https://github.com/CharlesArea"
+  }
 }

@@ -6,7 +6,7 @@
 
 ### リクエストと根拠を、実際に読まれるレポートへ。
 
-6 つのビジュアルテーマ · 16 個の再利用可能なテンプレート · 1 つの正規モデルから DOCX、PDF、オプションの編集可能な PPTX を生成
+Codex と Claude Code で使えるスキル · 6 つのビジュアルテーマ · 16 個のテンプレート · DOCX、PDF、オプションの編集可能な PPTX
 
 [English](README.md) ·
 <a href="README.zh-CN.md">简体中文</a> ·
@@ -44,6 +44,8 @@ RAS は、独立した Markdown ブロック、ソース台帳、ビジュアル
 ### ローカライズされたドキュメント
 
 [简体中文](README.zh-CN.md)、[繁體中文](README.zh-TW.md)、[日本語](README.ja.md)、[한국어](README.ko.md)、[Español](README.es.md)、[Français](README.fr.md)、[Deutsch](README.de.md)、[Português (Brasil)](README.pt-BR.md)、[Русский](README.ru.md) で読めます。RAS はレポートブロック内の Unicode 文字を保持し、ローカライズされた出力向けに CJK フォールバックフォントも設定できます。
+
+**RAS を使う:** [Codex または Claude Code にインストール](#install-guide)。
 
 ## デモ
 
@@ -88,37 +90,74 @@ RAS は、独立した Markdown ブロック、ソース台帳、ビジュアル
   </tr>
 </table>
 
-## Codex にインストール
+<a id="install-guide"></a>
 
-RAS はバージョン付き Codex プラグインとして配布されています。安定版 `v0.1.0` のマーケットプレイスを追加します。
+## Codex または Claude Code にインストール
+
+RAS はレポート作成スキルで、Codex と Claude Code 用のプラグインとして配布されています。利用するエージェントにインストールしてください。`ras-report` は、直接またはスクリプトから使う場合の任意のレンダラーです。
+
+### Codex
+
+Codex CLI で安定版 `v0.1.0` のマーケットプレイスを追加し、プラグインをインストールします。
 
 ```bash
 codex plugin marketplace add CharlesArea/ras --ref v0.1.0
 codex plugin add ras@ras-marketplace
 ```
 
-その後、新しい Codex チャットで `$ras` を指定します。プラグインブラウザーを使う場合は、`codex` を起動して `/plugins` を実行し、**RAS — Report Anything Skill** を開いて **Install plugin** を選択します。設定案内に従って Python レンダリング環境を導入し、新しいチャットを開始してください。
+Codex アプリのプラグインブラウザーからインストールするには、最初のコマンドだけ実行してマーケットプレイスを登録します。次に `/plugins` を開き、**RAS — Report Anything Skill** を選んで **Install plugin** をクリックし、新しい Codex チャットで `$ras` を呼び出します。
 
 ```text
 Use $ras to turn these notes into an evidence-grounded decision memo and
 deliver DOCX, PDF, and an editable PPTX companion.
 ```
 
-現在の Codex では、共有スキルは `codex skill install` ではなく `codex plugin add` で導入します。上記のコマンドはテスト済みリリースを固定します。既定ブランチの最新状態を使う場合は `--ref v0.1.0` を省略してください。
+### Claude Code
 
-### ダウンロードまたは手動インストール
-
-[GitHub Releases](https://github.com/CharlesArea/ras/releases/latest) からパッケージをダウンロードするか、同じ固定バージョンをローカル開発用にインストールします。
+Claude Code のターミナルで RAS マーケットプレイスを追加し、プラグインをインストールします。
 
 ```bash
-git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
-cd ras
-python -m pip install -e ".[render]"
+claude plugin marketplace add CharlesArea/ras
+claude plugin install ras@ras-marketplace
 ```
 
-Python 3.11 以降が必要です。ポータブルプラグインマニフェストは [`plugin.json`](plugin.json)、マーケットプレイスカタログは [`marketplace.json`](.agents/plugins/marketplace.json) にあります。ホスト互換マニフェストとして [Codex](.codex-plugin/plugin.json) と [Claude](.claude-plugin/plugin.json) も含まれます。
+対話セッションでは `/plugin marketplace add CharlesArea/ras` の後に `/plugin install ras@ras-marketplace` を実行し、インストール範囲を選ぶこともできます。スキルは `/ras:ras`、レンダラーのセットアップは `/ras:setup` で呼び出します。[Claude Code のプラグイン導入ガイド](https://code.claude.com/docs/en/plugins/install)も参照してください。
+
+### プラグインとマーケットプレイスのファイル
+
+ポータブルなプラグインマニフェストは [`plugin.json`](plugin.json) です。[Codex 用](.agents/plugins/marketplace.json)と[Claude Code 用](.claude-plugin/marketplace.json)のカタログ、および[Codex 互換](.codex-plugin/plugin.json)と[Claude Code 互換](.claude-plugin/plugin.json)のマニフェストがあります。
 
 ## クイックスタート
+
+インストールしたスキルにレポート作成を依頼します。詳細な分析、外部調査、DOCX/PDF など必要な成果物を依頼文に含めてください。
+
+Codex の場合：
+
+```text
+$ras COVID 前後の経済を比較する、根拠に基づいた詳細なレポートを作成
+してください。最新の一次資料を調査し、主な変化と限界を説明して、
+DOCX と PDF で納品してください。
+```
+
+Claude Code の場合：
+
+```text
+/ras:ras COVID 前後の経済を比較する、根拠に基づいた詳細なレポートを
+作成してください。最新の一次資料を調査し、主な変化と限界を説明して、
+DOCX と PDF で納品してください。
+```
+
+依頼内容から `quick`、`standard`、`deep` の計画を推定します。DOCX/PDF の生成にはローカルレンダラーと Python 3.11 以降が必要です。セットアップを提案されたら承認してください。PPTX は任意の形式で、対応する Node.js と Artifact Tool を備えたホストが必要です。
+
+## 任意：レンダラーを CLI から直接使う
+
+ここではレンダラーを直接またはスクリプトから使う方法を説明します。スキルのインストールではありません。
+
+```bash
+python -m pip install "ras-report-anything[render] @ git+https://github.com/CharlesArea/ras.git@v0.1.0"
+```
+
+Python 3.11 以降が必要です。
 
 レポートプロジェクトを初期化します。
 
@@ -150,7 +189,7 @@ ras-report build reports/my-report/manifest.yaml --formats docx,pdf,pptx
 ras-report qa reports/my-report/manifest.yaml
 ```
 
-DOCX と PDF はコア出力で、Python のレンダー追加機能で動作します。PPTX はホストに組み込み Node.js と Artifact Tool 実行環境がある場合の、編集可能なコンパニオンです。
+DOCX と PDF はコア出力で、Python のレンダー追加機能で動作します。PPTX は Node.js と Artifact Tool に対応したホストで生成できる、任意の編集可能なコンパニオンです。
 
 ### 出力形式
 
@@ -158,7 +197,7 @@ DOCX と PDF はコア出力で、Python のレンダー追加機能で動作し
 | --- | --- | --- |
 | DOCX | コア出力 | Python と `python-docx` |
 | PDF | コア出力 | Python と ReportLab |
-| PPTX | オプションの編集可能なコンパニオン | ホストの Node.js と Artifact Tool |
+| PPTX | オプションの編集可能なコンパニオン | Node.js と Artifact Tool に対応したホスト |
 
 再利用可能なテンプレートカタログから、より充実したパッケージも作成できます。
 

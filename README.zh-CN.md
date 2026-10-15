@@ -6,7 +6,7 @@
 
 ### 将请求和证据转化为人们真正愿意阅读的报告。
 
-六套视觉主题 · 16 种可复用模板 · 从同一个规范模型生成 DOCX、PDF 和可选的可编辑 PPTX
+适用于 Codex 和 Claude Code 的技能 · 六套视觉主题 · 16 种模板 · DOCX、PDF 和可选的可编辑 PPTX
 
 [English](README.md) ·
 <a href="README.zh-CN.md">简体中文</a> ·
@@ -44,6 +44,8 @@ RAS 会把请求转化为结构化项目，其中包含独立 Markdown 区块、
 ### 本地化文档
 
 你可以阅读[简体中文](README.zh-CN.md)、[繁體中文](README.zh-TW.md)、[日本語](README.ja.md)、[한국어](README.ko.md)、[Español](README.es.md)、[Français](README.fr.md)、[Deutsch](README.de.md)、[Português (Brasil)](README.pt-BR.md) 或 [Русский](README.ru.md) 版本。RAS 也会保留报告区块中的 Unicode 文本，并支持为本地化报告输出配置 CJK 回退字体。
+
+**开始使用 RAS：**[安装到 Codex 或 Claude Code](#install-guide)。
 
 ## 实际展示
 
@@ -88,37 +90,72 @@ RAS 会把请求转化为结构化项目，其中包含独立 Markdown 区块、
   </tr>
 </table>
 
-## 在 Codex 中安装
+<a id="install-guide"></a>
 
-RAS 以带版本的 Codex 插件发布。添加稳定版 `v0.1.0` 的市场：
+## 在 Codex 或 Claude Code 中安装
+
+RAS 是一个报告写作技能，以插件形式提供给 Codex 和 Claude Code。请安装到你使用的智能体中。`ras-report` 命令是可选的独立渲染器，适用于直接运行或脚本调用。
+
+### Codex
+
+在 Codex CLI 中添加稳定版 `v0.1.0` 市场并安装插件：
 
 ```bash
 codex plugin marketplace add CharlesArea/ras --ref v0.1.0
 codex plugin add ras@ras-marketplace
 ```
 
-然后开始新的 Codex 对话并使用 `$ras`。如果使用插件浏览器，请运行 `codex`，执行 `/plugins`，打开 **RAS — Report Anything Skill** 并选择 **Install plugin**，按提示安装 Python 渲染运行环境后开始新对话。
+如需通过 Codex 应用的插件浏览器安装，只运行第一条命令注册市场，然后打开 `/plugins`，选择 **RAS — Report Anything Skill** 并点击 **Install plugin**。安装后开始新的 Codex 对话并调用 `$ras`。
 
 ```text
 Use $ras to turn these notes into an evidence-grounded decision memo and
 deliver DOCX, PDF, and an editable PPTX companion.
 ```
 
-Codex 目前使用 `codex plugin add` 安装共享技能，而不是 `codex skill install`。上面的命令固定到经过测试的版本；如需使用默认分支的最新市场状态，可省略 `--ref v0.1.0`。
+### Claude Code
 
-### 下载或手动安装
-
-可从 [GitHub Releases](https://github.com/CharlesArea/ras/releases/latest) 下载打包源码，或为本地开发安装同一个固定版本：
+在 Claude Code 终端中添加 RAS 市场并安装插件：
 
 ```bash
-git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
-cd ras
-python -m pip install -e ".[render]"
+claude plugin marketplace add CharlesArea/ras
+claude plugin install ras@ras-marketplace
 ```
 
-需要 Python 3.11 或更高版本。可移植插件清单位于 [`plugin.json`](plugin.json)，市场目录位于 [`marketplace.json`](.agents/plugins/marketplace.json)，并包含 [Codex](.codex-plugin/plugin.json) 与 [Claude](.claude-plugin/plugin.json) 兼容清单。
+在交互会话中，也可以运行 `/plugin marketplace add CharlesArea/ras`，然后运行 `/plugin install ras@ras-marketplace` 并选择安装范围。技能调用方式是 `/ras:ras`；渲染器设置方式是 `/ras:setup`。更多信息请参阅 [Claude Code 插件安装指南](https://code.claude.com/docs/en/plugins/install)。
+
+### 插件和市场文件
+
+可移植插件清单位于 [`plugin.json`](plugin.json)。仓库提供 [Codex](.agents/plugins/marketplace.json) 和 [Claude Code](.claude-plugin/marketplace.json) 市场目录，以及兼容 [Codex](.codex-plugin/plugin.json) 和 [Claude Code](.claude-plugin/plugin.json) 的清单。
 
 ## 快速开始
+
+安装后，用自然语言让技能创建你需要的报告。请说明是否需要深入分析、外部研究，以及 DOCX/PDF 等交付格式。
+
+在 Codex 中：
+
+```text
+$ras 创建一份有证据支撑的详细报告，比较 COVID 前后的经济情况。请研究
+最新的一手资料，解释主要变化和局限，并交付 DOCX 和 PDF。
+```
+
+在 Claude Code 中：
+
+```text
+/ras:ras 创建一份有证据支撑的详细报告，比较 COVID 前后的经济情况。请
+研究最新的一手资料，解释主要变化和局限，并交付 DOCX 和 PDF。
+```
+
+RAS 会根据请求推断 `quick`、`standard` 或 `deep` 计划。生成 DOCX/PDF 需要本地渲染器和 Python 3.11 或更高版本；系统提示配置时请确认。PPTX 是可选格式，需要支持 Node.js 和 Artifact Tool 的主机环境。
+
+## 可选：直接运行渲染器 CLI
+
+本节仅适用于直接运行或通过脚本调用渲染器；它不会安装技能：
+
+```bash
+python -m pip install "ras-report-anything[render] @ git+https://github.com/CharlesArea/ras.git@v0.1.0"
+```
+
+需要 Python 3.11 或更高版本。
 
 初始化一个报告项目：
 
@@ -150,7 +187,7 @@ ras-report build reports/my-report/manifest.yaml --formats docx,pdf,pptx
 ras-report qa reports/my-report/manifest.yaml
 ```
 
-DOCX 和 PDF 是核心输出，可通过 Python 渲染依赖运行。PPTX 是可选的可编辑伴侣，需要主机提供内置 Node.js 和 Artifact Tool 运行环境。
+DOCX 和 PDF 是核心输出，可通过 Python 渲染依赖运行。PPTX 是可选的可编辑伴侣，需要支持 Node.js 和 Artifact Tool 的主机环境。
 
 ### 输出目标
 
@@ -158,7 +195,7 @@ DOCX 和 PDF 是核心输出，可通过 Python 渲染依赖运行。PPTX 是可
 | --- | --- | --- |
 | DOCX | 核心输出 | Python 与 `python-docx` |
 | PDF | 核心输出 | Python 与 ReportLab |
-| PPTX | 可选的可编辑伴侣 | 主机 Node.js 与 Artifact Tool |
+| PPTX | 可选的可编辑伴侣 | 支持 Node.js 和 Artifact Tool 的主机 |
 
 也可以从可复用模板目录生成更完整的项目：
 

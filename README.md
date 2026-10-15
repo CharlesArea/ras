@@ -4,7 +4,7 @@
 
 ### Turn a request and its evidence into a report people will actually read.
 
-Six visual themes · Sixteen reusable templates · DOCX + PDF + optional editable PPTX from one canonical model
+Codex and Claude Code skill · Six visual themes · Sixteen reusable templates · DOCX + PDF + optional editable PPTX
 
 <a href="README.md">English</a> ·
 <a href="README.zh-CN.md">简体中文</a> ·
@@ -17,7 +17,7 @@ Six visual themes · Sixteen reusable templates · DOCX + PDF + optional editabl
 <a href="README.pt-BR.md">Português (Brasil)</a> ·
 <a href="README.ru.md">Русский</a>
 
-<a href="#quickstart">Quickstart</a> ·
+<a href="#install-guide">Install & quickstart</a> ·
 <a href="#see-it-in-action">See it in action</a> ·
 <a href="#design-system">Design system</a> ·
 <a href="#evidence-model">Evidence model</a> ·
@@ -66,6 +66,8 @@ Read this project in [简体中文](README.zh-CN.md), [繁體中文](README.zh-T
 [Português (Brasil)](README.pt-BR.md), or [Русский](README.ru.md).
 RAS also preserves Unicode text in report blocks and supports configurable
 CJK fallback fonts for localized report output.
+
+**Ready to use RAS?** [Install it in Codex or Claude Code](#install-guide), then start with the [example prompt](#quickstart).
 
 ## See it in action
 
@@ -126,87 +128,110 @@ references plus block text in speaker notes.
   </tr>
 </table>
 
-## Install in Codex
+<a id="install-guide"></a>
 
-RAS is distributed as a versioned Codex plugin. Add the marketplace for the
-stable `v0.1.0` release:
+## Install the skill in Codex or Claude Code
+
+RAS is a report-writing skill packaged for both Codex and Claude Code. Install
+the plugin in the agent you use; the `ras-report` command is an optional,
+standalone renderer for direct or scripted use.
+
+### Codex
+
+From the Codex CLI terminal, add the RAS marketplace for stable release
+`v0.1.0` and install its plugin:
 
 ```bash
 codex plugin marketplace add CharlesArea/ras --ref v0.1.0
 codex plugin add ras@ras-marketplace
 ```
 
-Then start a new Codex chat and ask it to use `$ras`.
+To install through the Codex app's plugin browser instead, run only the first
+command to register the marketplace, then open `/plugins`, find **RAS — Report
+Anything Skill**, and choose **Install plugin**. Start a new Codex chat after
+installation. The plugin's setup skill can install the local renderer when you
+request DOCX/PDF output.
 
-If you prefer the plugin browser:
+### Claude Code
 
-1. Start Codex with `codex`.
-2. Run `/plugins`.
-3. Open **RAS — Report Anything Skill** and select **Install plugin**.
-4. Follow the setup prompt to install the Python rendering runtime.
-5. Start a new chat.
-
-Example:
-
-```text
-Use $ras to turn these notes into an evidence-grounded decision memo and
-deliver DOCX, PDF, and an editable PPTX companion.
-```
-
-Codex currently installs shared skills with `codex plugin add` rather than a
-`codex skill install` command. The commands above pin the tested release. Omit
-`--ref v0.1.0` if you want the newest marketplace state from the default branch.
-
-### Download or install manually
-
-Download the packaged source from [GitHub Releases](https://github.com/CharlesArea/ras/releases/latest),
-or install the same pinned release for local development:
+Add the RAS marketplace and install the plugin from a Claude Code terminal:
 
 ```bash
-git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
-cd ras
-python -m pip install -e ".[render]"
+claude plugin marketplace add CharlesArea/ras
+claude plugin install ras@ras-marketplace
 ```
 
-Python 3.11 or newer is required. The portable plugin manifest is
-[`plugin.json`](plugin.json), the marketplace catalog is
-[`marketplace.json`](.agents/plugins/marketplace.json), and host compatibility
-manifests are included for [Codex](.codex-plugin/plugin.json) and
-[Claude](.claude-plugin/plugin.json).
+In an interactive session, run these slash commands and choose an install scope:
+
+```text
+/plugin marketplace add CharlesArea/ras
+/plugin install ras@ras-marketplace
+```
+
+The RAS skill is available as `/ras:ras`; its setup skill is `/ras:setup`. See
+the [Claude Code plugin installation guide](https://code.claude.com/docs/en/plugins/install).
+
+### Package files
+
+The portable plugin manifest is [`plugin.json`](plugin.json). Marketplace
+catalogs are provided for [Codex](.agents/plugins/marketplace.json) and
+[Claude Code](.claude-plugin/marketplace.json); the host manifests are
+[Codex-compatible](.codex-plugin/plugin.json) and
+[Claude Code-compatible](.claude-plugin/plugin.json).
 
 ## Quickstart
 
-Initialize a report project:
+After installing, ask the skill for the report you need. Use ordinary language;
+state the desired depth, research, and deliverables when they matter.
+
+In Codex:
+
+```text
+$ras Create a detailed, evidence-grounded report comparing the economy before
+and after COVID. Research current primary sources, explain the main changes and
+limitations, and deliver DOCX and PDF.
+```
+
+In Claude Code:
+
+```text
+/ras:ras Create a detailed, evidence-grounded report comparing the economy
+before and after COVID. Research current primary sources, explain the main
+changes and limitations, and deliver DOCX and PDF.
+```
+
+RAS infers a quick, standard, or deep plan from the request. For DOCX/PDF
+rendering, approve the local Python renderer setup when prompted; it requires
+Python 3.11 or newer. PPTX is an optional companion and needs a host that
+provides the supported Node.js and Artifact Tool runtime.
+
+## Optional: standalone renderer CLI
+
+Use the renderer directly only when you want to manage report files and builds
+from a terminal or script. This is separate from installing the Codex or Claude
+Code skill.
+
+Install the renderer and DOCX/PDF dependencies from the stable release:
+
+```bash
+python -m pip install "ras-report-anything[render] @ git+https://github.com/CharlesArea/ras.git@v0.1.0"
+```
+
+Then initialize, edit, validate, render, and check a report package:
 
 ```bash
 ras-report init reports/my-report \
   --request "Create an evidence-grounded decision memo from these notes" \
   --archetype decision-memo
-```
-
-Depth is inferred from ordinary language. Keep the workflow one prompt long,
-or override it when the output needs a deliberate size or research mode:
-
-```bash
-ras-report init reports/economy-deep-dive \
-  --request "Create a detailed comparison of the economy before and after COVID" \
-  --depth deep --research web --pages 15
-```
-
-The available profiles are `quick`, `standard`, and `deep`. Inspect the
-resolved plan at any time with `ras-report plan <manifest>`.
-
-Edit the generated `manifest.yaml`, `sources.yaml`, and Markdown blocks, then validate, build, and inspect the result:
-
-```bash
+ras-report plan reports/my-report/manifest.yaml
 ras-report validate reports/my-report/manifest.yaml
-ras-report build reports/my-report/manifest.yaml --formats docx,pdf,pptx
+ras-report build reports/my-report/manifest.yaml --formats docx,pdf
 ras-report qa reports/my-report/manifest.yaml
 ```
 
-DOCX and PDF are the core outputs and work with the Python render extra. PPTX
-is an optional editable companion generated with the host's bundled Node.js and
-Artifact Tool presentation runtime.
+The CLI infers `quick`, `standard`, or `deep` from the request. To set the
+research mode and size explicitly, use options such as `--depth deep
+--research web --pages 15` on `ras-report init`.
 
 ### Output targets
 
@@ -214,7 +239,7 @@ Artifact Tool presentation runtime.
 | --- | --- | --- |
 | DOCX | Core output | Python with `python-docx` |
 | PDF | Core output | Python with ReportLab |
-| PPTX | Optional editable companion | Host Node.js and Artifact Tool runtime |
+| PPTX | Optional editable companion | A supported host with Node.js and Artifact Tool |
 
 Scaffold a fuller package from the reusable template catalog:
 

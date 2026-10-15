@@ -1,0 +1,19 @@
+{
+  "name": "ras-marketplace",
+  "description": "Report Anything Skill for Claude Code",
+  "owner": {
+    "name": "CharlesArea",
+    "url": "https://github.com/CharlesArea"
+  },
+  "plugins": [
+    {
+      "name": "ras",
+      "source": {
+        "source": "github",
+        "repo": "CharlesArea/ras",
+        "ref": "main"
+      },
+      "description": "Create evidence-grounded, visually polished reports from a natural-language request."
+    }
+  ]
+}

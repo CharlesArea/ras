@@ -6,7 +6,7 @@
 
 ### 요청과 근거를 사람들이 실제로 읽고 싶은 보고서로 바꿉니다.
 
-6개 시각 테마 · 16개 재사용 가능한 템플릿 · 하나의 정규 모델에서 DOCX + PDF + 선택 가능한 편집형 PPTX 생성
+Codex 및 Claude Code용 스킬 · 6개 시각 테마 · 16개 템플릿 · DOCX + PDF + 선택 가능한 편집형 PPTX
 
 [English](README.md) ·
 <a href="README.zh-CN.md">简体中文</a> ·
@@ -44,6 +44,8 @@ RAS는 요청을 독립적인 Markdown 블록, 출처 원장, 시각 계약, 품
 ### 다국어 문서
 
 [简体中文](README.zh-CN.md), [繁體中文](README.zh-TW.md), [日本語](README.ja.md), [한국어](README.ko.md), [Español](README.es.md), [Français](README.fr.md), [Deutsch](README.de.md), [Português (Brasil)](README.pt-BR.md), [Русский](README.ru.md)로 프로젝트를 읽을 수 있습니다. RAS는 보고서 블록의 Unicode 텍스트를 보존하고 현지화된 보고서 출력에 사용할 CJK 대체 글꼴도 설정할 수 있습니다.
+
+**RAS 시작하기:** [Codex 또는 Claude Code에 설치](#install-guide).
 
 ## 실제 예시
 
@@ -88,37 +90,74 @@ RAS는 요청을 독립적인 Markdown 블록, 출처 원장, 시각 계약, 품
   </tr>
 </table>
 
-## Codex에 설치
+<a id="install-guide"></a>
 
-RAS는 버전이 지정된 Codex 플러그인으로 배포됩니다. 안정 버전 `v0.1.0`의 마켓플레이스를 추가하세요.
+## Codex 또는 Claude Code에 설치
+
+RAS는 Codex와 Claude Code 플러그인으로 배포되는 보고서 작성 스킬입니다. 사용하는 에이전트에 설치하세요. `ras-report` 명령은 직접 실행하거나 스크립트에서 사용할 때 선택적으로 쓰는 렌더러입니다.
+
+### Codex
+
+Codex CLI에서 안정 버전 `v0.1.0` 마켓플레이스를 추가한 다음 플러그인을 설치하세요.
 
 ```bash
 codex plugin marketplace add CharlesArea/ras --ref v0.1.0
 codex plugin add ras@ras-marketplace
 ```
 
-그 다음 새 Codex 채팅을 시작하고 `$ras`를 사용해 달라고 요청하세요. 플러그인 브라우저를 사용하려면 `codex`를 시작하고 `/plugins`를 실행한 뒤 **RAS — Report Anything Skill**을 열고 **Install plugin**을 선택하세요. 설정 안내에 따라 Python 렌더링 환경을 설치합니다.
+Codex 앱의 플러그인 브라우저에서 설치하려면 첫 번째 명령만 실행해 마켓플레이스를 등록하세요. 그런 다음 `/plugins`를 열고 **RAS — Report Anything Skill**을 선택해 **Install plugin**을 클릭한 뒤 새 Codex 채팅에서 `$ras`를 호출하세요.
 
 ```text
 Use $ras to turn these notes into an evidence-grounded decision memo and
 deliver DOCX, PDF, and an editable PPTX companion.
 ```
 
-현재 Codex는 공유 스킬을 `codex skill install`이 아니라 `codex plugin add`로 설치합니다. 위 명령은 테스트된 릴리스를 고정합니다. 기본 브랜치의 최신 마켓플레이스 상태를 사용하려면 `--ref v0.1.0`을 생략하세요.
+### Claude Code
 
-### 다운로드 또는 수동 설치
-
-[GitHub Releases](https://github.com/CharlesArea/ras/releases/latest)에서 패키지 소스를 다운로드하거나 로컬 개발을 위해 같은 버전을 설치하세요.
+Claude Code 터미널에서 RAS 마켓플레이스를 추가하고 플러그인을 설치하세요.
 
 ```bash
-git clone --branch v0.1.0 https://github.com/CharlesArea/ras.git
-cd ras
-python -m pip install -e ".[render]"
+claude plugin marketplace add CharlesArea/ras
+claude plugin install ras@ras-marketplace
 ```
 
-Python 3.11 이상이 필요합니다. 포터블 플러그인 매니페스트는 [`plugin.json`](plugin.json), 마켓플레이스 카탈로그는 [`marketplace.json`](.agents/plugins/marketplace.json)에 있으며 [Codex](.codex-plugin/plugin.json) 및 [Claude](.claude-plugin/plugin.json) 호환 매니페스트도 포함됩니다.
+대화형 세션에서는 `/plugin marketplace add CharlesArea/ras` 다음에 `/plugin install ras@ras-marketplace`를 실행하고 설치 범위를 선택할 수도 있습니다. 스킬은 `/ras:ras`, 렌더러 설정은 `/ras:setup`으로 호출합니다. 자세한 내용은 [Claude Code 플러그인 설치 안내](https://code.claude.com/docs/en/plugins/install)를 참조하세요.
+
+### 플러그인 및 마켓플레이스 파일
+
+포터블 플러그인 매니페스트는 [`plugin.json`](plugin.json)입니다. [Codex용](.agents/plugins/marketplace.json) 및 [Claude Code용](.claude-plugin/marketplace.json) 카탈로그와 [Codex 호환](.codex-plugin/plugin.json), [Claude Code 호환](.claude-plugin/plugin.json) 매니페스트가 있습니다.
 
 ## 빠른 시작
+
+설치된 스킬에 원하는 보고서를 만들어 달라고 요청하세요. 상세 분석, 외부 조사, DOCX/PDF 등 필요한 결과물을 요청에 적으면 됩니다.
+
+Codex에서:
+
+```text
+$ras COVID 전후의 경제를 비교하는 상세한 근거 기반 보고서를 작성해 주세요.
+최신 1차 자료를 조사하고 주요 변화와 한계를 설명한 뒤 DOCX와 PDF로
+제공해 주세요.
+```
+
+Claude Code에서:
+
+```text
+/ras:ras COVID 전후의 경제를 비교하는 상세한 근거 기반 보고서를 작성해
+주세요. 최신 1차 자료를 조사하고 주요 변화와 한계를 설명한 뒤 DOCX와 PDF로
+제공해 주세요.
+```
+
+RAS는 요청에서 `quick`, `standard`, `deep` 계획을 추론합니다. DOCX/PDF 렌더링에는 로컬 렌더러와 Python 3.11 이상이 필요합니다. 설정을 제안받으면 승인하세요. PPTX는 선택 사항이며 Node.js와 Artifact Tool을 제공하는 지원 호스트가 필요합니다.
+
+## 선택 사항: 렌더러 CLI 직접 사용
+
+이 절은 렌더러를 직접 실행하거나 스크립트에서 사용할 때만 필요하며 스킬을 설치하지 않습니다.
+
+```bash
+python -m pip install "ras-report-anything[render] @ git+https://github.com/CharlesArea/ras.git@v0.1.0"
+```
+
+Python 3.11 이상이 필요합니다.
 
 보고서 프로젝트를 초기화합니다.
 
@@ -150,7 +189,7 @@ ras-report build reports/my-report/manifest.yaml --formats docx,pdf,pptx
 ras-report qa reports/my-report/manifest.yaml
 ```
 
-DOCX와 PDF는 핵심 출력입니다. PPTX는 호스트의 Node.js와 Artifact Tool 환경이 있을 때 생성되는 선택 가능한 편집형 동반 파일입니다.
+DOCX와 PDF는 핵심 출력입니다. PPTX는 Node.js와 Artifact Tool을 제공하는 지원 호스트에서 생성할 수 있는 선택형 편집 프레젠테이션입니다.
 
 ### 출력 대상
 
@@ -158,7 +197,7 @@ DOCX와 PDF는 핵심 출력입니다. PPTX는 호스트의 Node.js와 Artifact 
 | --- | --- | --- |
 | DOCX | 핵심 출력 | Python 및 `python-docx` |
 | PDF | 핵심 출력 | Python 및 ReportLab |
-| PPTX | 선택 가능한 편집형 동반 파일 | 호스트 Node.js 및 Artifact Tool |
+| PPTX | 선택 가능한 편집형 동반 파일 | Node.js와 Artifact Tool을 제공하는 지원 호스트 |
 
 ### 보고서 프로젝트 구조
 
